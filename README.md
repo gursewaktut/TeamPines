@@ -72,13 +72,13 @@ Acceptance Criteria:
 
 ### Frontend
 
-- React js
+- React js [Basic react tutorial](https://react.dev/learn) | [React with api tutorials](https://www.freecodecamp.org/news/how-to-consume-rest-apis-in-react/)
 - Chakra UI
 - If needed Bootstrap and other css/js libraries
     
 ### Backend (if needed)
 
-- Nodejs
+- Nodejs [Node js](https://nodejs.org/en/docs/guides/getting-started-guidehttps://nodejs.org/en/docs/guides/getting-started-guide)
 
 ### Testing
 
@@ -87,7 +87,7 @@ Acceptance Criteria:
 
 ### CI/CD
 
-- Jenkins / Github actions
+- [Jenkins with react and npm](https://www.jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/) / [Github actions](https://docs.github.com/en/actions/learn-github-actions)
 
 ### Hosting
 
