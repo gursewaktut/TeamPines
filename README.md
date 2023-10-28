@@ -52,3 +52,25 @@ CMPT 276 project
             - The decision support feature on the website should guide the user through inputting relevant details.
             - The results should be presented on the website in a user-friendly manner, summarizing the pros and cons of each course.
 
+
+
+# TECH STACK
+
+### Frontend
+    - React js
+    - Chakra UI
+    - If needed Bootstrap and other css/js libraries
+    
+### Backend (if needed)
+    - Nodejs
+    
+### Testing
+    - Jest ![Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
+    - Selenium
+    
+### CI/CD
+    - Jenkins / Github actions
+    
+### Hosting
+    - ![Replit](https://replit.com/)
+    - ![Netlify](https://www.netlify.com/)
