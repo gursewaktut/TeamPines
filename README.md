@@ -93,3 +93,8 @@ Acceptance Criteria:
 
 - [Replit](https://replit.com/)
 - [Netlify](https://www.netlify.com/)
+
+# Sample Work Breakdown Structure (created by Lucid-chart)
+
+Here is a link to sample WBS structure created for milestone 1 of the CMPT276 project. 
+[SampleWBS#1](https://lucid.app/lucidchart/879f1dbb-78f5-41e1-a718-9a2486baef51/edit?viewport_loc=-35%2C43%2C2492%2C1436%2C0_0&invitationId=inv_f070db37-c5b0-478e-a40a-9de07e8b78b3)
