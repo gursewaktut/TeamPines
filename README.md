@@ -68,33 +68,111 @@ Acceptance Criteria:
 - The decision support feature on the website should guide the user through inputting relevant details.
 - The results should be presented on the website in a user-friendly manner, summarizing the pros and cons of each course.
 
-# TECH STACK
+### Technology Stack
 
-### Frontend
 
-- React js [Basic react tutorial](https://react.dev/learn) | [React with api tutorials](https://www.freecodecamp.org/news/how-to-consume-rest-apis-in-react/)
-- Chakra UI
-- If needed Bootstrap and other css/js libraries
-    
-### Backend (if needed)
+## Frontend:
+ React.js: Chosen for its component-based architecture, JSX syntax, and easy integration with other libraries. 
+ [ReactJS Tutorial](https://react.dev/learn)
+ [React with API Tutorial](https://www.freecodecamp.org/news/how-to-consume-rest-apis-in-react/)
+ Chakra UI: For its customizability, consistent design language, and seamless integration with React.
+## Backend:
+ Python: Primary language for backend to integrate with the Steamship API and other backend functionalities.
+## Testing:
+ Jest: A JavaScript testing framework for unit testing React components.
+ Selenium: For end-to-end testing and ensuring cross-browser compatibility.
+ [Jest Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
+## CI/CD:
+ GitHub Actions: For its seamless integration with Git, easy configuration, and automation capabilities.
+ [Jenkins with React and NPM](https://www.jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/)
+ [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions)
+## Hosting:
+ Replit: For collaborative coding and rapid prototyping. [Replit](https://replit.com)
+ Netlify: For hosting the frontend, given its ease of use and continuous deployment features.[Netlify](https://www.netlify.com)
 
-- Nodejs [Node js](https://nodejs.org/en/docs/guides/getting-started-guidehttps://nodejs.org/en/docs/guides/getting-started-guide)
+### APIs Chosen
 
-### Testing
+## HackerEarth:
+Multi-Language Support: To cater to learners interested in different programming languages.
+Code Execution and Compilation: To provide real-world coding experience.
+Error Retrieval: To help learners understand and correct their coding mistakes.
 
-- Jest [Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
-- Selenium
+## Steamship:
+Tutor Character: To personalize the learning experience with various tutor personalities.
+Images Evaluation: To allow learners to upload code snapshots for analysis.
+Solution Bot: To provide interactive learning and problem-solving experiences.
 
-### CI/CD
+## Planned features per API
 
-- [Jenkins with react and npm](https://www.jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/) / [Github actions](https://docs.github.com/en/actions/learn-github-actions)
+# HackerEarth:
+Interactive Coding Environment: Where users can write, execute, and see the output of their code in multiple languages.
+Error Analysis and Feedback: Providing detailed explanations for any errors in the code.
+Real-time Code Execution: Allowing users to experience the immediate results of their coding, mimicking a real-world coding environment.
 
-### Hosting
+# Steamship:
+Tutor Personalization: Users can choose a tutor personality that aligns with their learning style.
+Code Snapshot Analysis: Users can upload images of code, which will be analyzed and explained.
+Interactive Solution Bot: A chatbot to guide users through coding challenges and explain complex concepts.
 
-- [Replit](https://replit.com/)
-- [Netlify](https://www.netlify.com/)
+### Work breakdown structure (WBS)
 
-# Sample Work Breakdown Structure (created by Lucid-chart)
+## Link to WBS
 
-Here is the link for the final Work Breakdown Structure along with the assigned tasks to group members.
-[Updated WBS#1](https://lucid.app/lucidchart/879f1dbb-78f5-41e1-a718-9a2486baef51/edit?viewport_loc=-205%2C381%2C3343%2C1926%2C0_0&invitationId=inv_f070db37-c5b0-478e-a40a-9de07e8b78b3)
+[WBS](https://lucid.app/lucidchart/879f1dbb-78f5-41e1-a718-9a2486baef51/edit?viewport_loc=-1233%2C-201%2C6190%2C3565%2C0_0&invitationId=inv_f070db37-c5b0-478e-a40a-9de07e8b78b3)
+
+
+Image Below 
+
+
+
+### Project Schedule 
+
+We are using Notion to keep us organized and to run our Sprints effectively. 
+
+
+Screenshot from Notion Sprint Board 
+Sprint 1: Initialization & Setup (Week 1)
+Day 1: Team kickoff meeting, defining roles and responsibilities.
+Day 2: Project setup and environment configuration for both frontend and backend.
+Days 3-4: Initial setup of React.js and Chakra UI for the frontend.
+Days 5-6: Basic integration of HackerEarth and Steamship APIs, ensuring connectivity and basic functionality.
+Day 7: Initial UI mockups and design, creating wireframes for key screens.
+
+Sprint 2: Core Features Development (Week 2)
+Days 1-2: Development of the user authentication system (login, registration).
+Days 3-4: Development of the interactive coding environment using HackerEarth API (code editor, execution environment).
+Days 5-6: Implementation of tutor selection and personalization features using the Steamship API.
+Day 7: Start Jest unit testing for developed features and setup continuous integration with GitHub Actions.
+
+Sprint 3: Advanced Features & Integration (Week 3)
+Days 1-2: Development of the image code analysis feature using Steamship API.
+Days 3-4: Development and integration of error feedback systems for the coding environment.
+Days 5-6: Enhancement of the interactive solution bot for a more engaging learning experience.
+Day 7: Conducting end-to-end testing with Selenium and addressing any identified issues.
+
+Sprint 4: Finalization & Deployment (Week 4)
+Days 1-2: Finalization of all features and bug fixing based on testing results.
+Days 3-4: Documentation of code and creation of user manuals.
+Days 5-6: Deployment of the application on Replit and Netlify, ensuring smooth CI/CD with GitHub Actions.
+Day 7: Collect feedback, conduct a project retrospective, and plan for post-launch maintenance and updates.
+
+Additional Notes:
+Regular stand-up meetings at the start of each day to discuss progress, roadblocks, and plans for the day.
+End-of-sprint reviews and planning for the next sprint on the last day of each sprint.
+Mid-sprint feedback sessions with stakeholders to validate features and gather early feedback.
+Continuous risk assessment and contingency planning throughout the project.
+This refined timeline offers a detailed breakdown of tasks and activities for each sprint, ensuring clarity and focus for the team. It also incorporates continuous testing, feedback, and risk management, aligning with Agile principles for a successful project execution.
+
+### Wireframe and Prototype 
+
+Link to Wireframes
+[Wireframes](https://www.figma.com/file/0b3kDLGjrKQC88linKnlvs/Untitled?type=design&node-id=0%3A1&mode=design&t=QrM2IHbhpaON7RKV-1)
+
+Image Below
+
+### Data Flow Diagram
+
+Using Lucidchart, the Level 0 and Level 1 DFDs provide adequate detail on interaction between different data on the web application. The link to the workspace as well as images for both levels (scaled down in size due to size limitation of the document) are below. 
+
+[Links to DFDs for better view 🔗](https://lucid.app/lucidchart/fc61c0cc-849a-44a5-be1d-570bdcf4cd1d/edit?viewport_loc=-2511%2C-2633%2C5117%2C2537%2C0_0&invitationId=inv_77c6ab09-2a82-4f07-9478-5a536c7ff7d9)
+
