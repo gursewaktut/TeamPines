@@ -34,10 +34,10 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 
 ## Contributors 
 
-Avni Kapoor : avkap007
-Gursewak Singh: gursewaktut
-Henrik Sachdeva : henriksfu
-Jiya Garg : jiyaagargg
+-Avni Kapoor : avkap007
+-Gursewak Singh: gursewaktut
+-Henrik Sachdeva : henriksfu
+-Jiya Garg : jiyaagargg
 
 ## Set Up Instructions 
 
