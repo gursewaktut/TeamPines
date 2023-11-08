@@ -18,27 +18,30 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
  [ReactJS Tutorial](https://react.dev/learn)
  [React with API Tutorial](https://www.freecodecamp.org/news/how-to-consume-rest-apis-in-react/)
  Chakra UI: For its customizability, consistent design language, and seamless integration with React.
+
 ## Backend:
  Python: Primary language for backend to integrate with the Steamship API and other backend functionalities.
+
 ## Testing:
  Jest: A JavaScript testing framework for unit testing React components.
  Selenium: For end-to-end testing and ensuring cross-browser compatibility.
  [Jest Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
+
 ## CI/CD:
  GitHub Actions: For its seamless integration with Git, easy configuration, and automation capabilities.
- [Jenkins with React and NPM](https://www.jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/)
  [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions)
 ## Hosting:
- Replit: For collaborative coding and rapid prototyping. [Replit](https://replit.com)
  Netlify: For hosting the frontend, given its ease of use and continuous deployment features.[Netlify](https://www.netlify.com)
 
 ## Contributors 
 
 - Avni Kapoor : avkap007
-[ProjectMilestone#1_AI_Declaration_Avni_Kapoor_301446648.pdf](ProjectMilestone%231_AI_Declaration_Avni_Kapoor_301446648.pdf)
+[ProjectMilestone#1_AI_Declaration_Avni_Kapoor_301446648.pdf](./extra/ProjectMilestone%231_AI_Declaration_Avni_Kapoor_301446648.pdf)
 
 - Gursewak Singh: gursewaktut
-- Henrik Sachdeva : henriksfu [ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](ProjectMilestone%231_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
+[ProjectMilestone#1_AI_Declaration_Gursewak_Singh_301575663.pdf](./extra/ProjectMilestone%231_AI_Declaration_Gursewak_Singh_301575663.pdf)
+
+- Henrik Sachdeva : henriksfu [ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](./extra/ProjectMilestone%231_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
 - Jiya Garg : jiyaagargg
 
 ## Set Up Instructions
