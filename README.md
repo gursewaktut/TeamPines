@@ -41,7 +41,7 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 - Henrik Sachdeva : henriksfu
 - Jiya Garg : jiyaagargg
 
-## Set Up Instructions 
+## Set Up Instructions
 
 TBD
 
