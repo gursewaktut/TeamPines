@@ -38,7 +38,7 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 [ProjectMilestone#1_AI_Declaration_Avni_Kapoor_301446648.pdf](ProjectMilestone%231_AI_Declaration_Avni_Kapoor_301446648.pdf)
 
 - Gursewak Singh: gursewaktut
-- Henrik Sachdeva : henriksfu [ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](./ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
+- Henrik Sachdeva : henriksfu [ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](ProjectMilestone%231_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
 - Jiya Garg : jiyaagargg
 
 ## Set Up Instructions
