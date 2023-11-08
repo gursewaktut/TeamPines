@@ -35,6 +35,7 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 ## Contributors 
 
 - Avni Kapoor : avkap007
+[AI Disclosure Form - Avni Kapoor](AI Use Disclosure-AK.pdf)
 - Gursewak Singh: gursewaktut
 - Henrik Sachdeva : henriksfu
 - Jiya Garg : jiyaagargg
