@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import LandingPage from './pages/LandingPage';
@@ -11,13 +11,13 @@ function App() {
   return (
     <ChakraProvider>
       <Router>
-        <Switch>
+        <Routes>
           <Route exact path="/" component={LandingPage} />
           <Route path="/courses" component={CourseSelection} />
           <Route path="/challenge/:language" component={CodingChallenge} />
           <Route path="/tutor-mode" component={TutorMode} />
           {/* Add other routes as needed */}
-        </Switch>
+        </Routes>
       </Router>
     </ChakraProvider>
   );

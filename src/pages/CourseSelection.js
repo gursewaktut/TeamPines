@@ -1,6 +1,6 @@
 import React from 'react';
 import { SimpleGrid, Box, Button, Image, Text } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const courses = [
   { name: 'Python', icon: '/icons/python.png', path: '/challenge/python' },
@@ -10,7 +10,7 @@ const courses = [
 ];
 
 export default function CourseSelection() {
-  const history = useHistory();
+  const history = useNavigate();
 
   return (
     <Box textAlign="center" py={10}>
