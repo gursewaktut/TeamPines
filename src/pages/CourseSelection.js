@@ -10,14 +10,14 @@ const courses = [
 ];
 
 export default function CourseSelection() {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <Box textAlign="center" py={10}>
       <Text fontSize="3xl" fontWeight="bold" mb={6}>Pick your Poison</Text>
       <SimpleGrid columns={{ base: 2, md: 4 }} spacing={5}>
         {courses.map((course) => (
-          <Button key={course.name} onClick={() => history.push(course.path)}>
+          <Button key={course.name} onClick={() => navigate(course.path)}>
             <Box textAlign="center">
               <Image src={course.icon} alt={course.name} boxSize="50px" mb={3} />
               <Text fontSize="xl">{course.name}</Text>
