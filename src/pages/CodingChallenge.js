@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Text, useDisclosure } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
 import Steamship from "@steamship/client"
-import { fetchQuestion, checkAnswer } from '../api'; // Mock functions to represent API calls.
+import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('// Type your code here');

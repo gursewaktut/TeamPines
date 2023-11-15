@@ -1,7 +1,7 @@
 // src/pages/TutorMode.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Input, VStack, Text } from '@chakra-ui/react';
-import { sendMessageToSteamship } from '../api'; // Mock function to represent sending messages to Steamship API.
+//import { sendMessageToSteamship } from '../api'; // Mock function to represent sending messages to Steamship API.
 
 const TutorMode = () => {
   const [messages, setMessages] = useState([]);
@@ -15,10 +15,10 @@ const TutorMode = () => {
       setMessage('');
 
       // Send the message to the Steamship API and wait for the response
-      const response = await sendMessageToSteamship(trimmedMessage);
+      //const response = await sendMessageToSteamship(trimmedMessage);
       
       // Add the Steamship response to the chat display
-      setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response }]);
+      setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: 'response' }]);
     }
   };
 
