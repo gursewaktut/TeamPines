@@ -10,30 +10,35 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 
 ![Landing Page](./extra/Landing_Page.png "Code Mentor AI Landing Page")
 
-
 ## Technology Stack
 
-## Frontend:
- React.js: Chosen for its component-based architecture, JSX syntax, and easy integration with other libraries. 
+## Frontend
+
+ React.js: Chosen for its component-based architecture, JSX syntax, and easy integration with other libraries.
  [ReactJS Tutorial](https://react.dev/learn)
  [React with API Tutorial](https://www.freecodecamp.org/news/how-to-consume-rest-apis-in-react/)
  Chakra UI: For its customizability, consistent design language, and seamless integration with React.
 
-## Backend:
+## Backend
+
  Python: Primary language for backend to integrate with the Steamship API and other backend functionalities.
 
-## Testing:
+## Testing
+
  Jest: A JavaScript testing framework for unit testing React components.
  Selenium: For end-to-end testing and ensuring cross-browser compatibility.
  [Jest Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
 
-## CI/CD:
+## CI/CD
+
  GitHub Actions: For its seamless integration with Git, easy configuration, and automation capabilities.
  [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions)
-## Hosting:
+
+## Hosting
+
  Netlify: For hosting the frontend, given its ease of use and continuous deployment features.[Netlify](https://www.netlify.com)
 
-## Contributors 
+## Contributors
 
 - Avni Kapoor : avkap007
 [ProjectMilestone#1_AI_Declaration_Avni_Kapoor_301446648.pdf](./extra/ProjectMilestone%231_AI_Declaration_Avni_Kapoor_301446648.pdf)
