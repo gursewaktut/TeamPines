@@ -13,7 +13,8 @@ const CodingChallenge = () => {
   const [question, setQuestion] = useState({});
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
-  const {checkOutput, setCheckOutput} = useState('false');
+  // trying to execute function after a post request to hackerearth api
+  //const [checkOutput, setCheckOutput] = useState(true);
 
   const comments = {python: "#Type your code here", javascript: "//Type your code here", html: "<!-- Type your code here -->" }
 
@@ -41,18 +42,20 @@ const CodingChallenge = () => {
     loadQuestion();
   }, []);
 
-  useEffect((checkOutput) => {
-    function getOutput() {
-      if (checkOutput) {
-        console.log('output called');
-      }
-    }
-    getOutput()
-    const interval = setInterval(() => getOutput(), 3000)
-    return () => {
-      clearInterval(interval);
-    }
-  }, []);
+// trying api request every 3 seconds after post request to hacker earth api
+//  useEffect((checkOutput) => {
+//    function getOutput() {
+//      if (checkOutput) {
+//        console.log('output called');
+//        setCheckOutput(false);
+//      }
+//    }
+//    getOutput()
+//    const interval = setInterval(() => getOutput(), 3000)
+//    return () => {
+//      clearInterval(interval);
+//    }
+//  }, []);
 
 
   const handleLanguageChange = (event) => {
@@ -69,6 +72,8 @@ const CodingChallenge = () => {
   };
 
   const checkCode = async () => {
+
+    console.log('checking code');
     //const apiKey = process.env.API_KEY;
     //console.log(apiKey);
     //const result = await checkAnswer(code, language); // Assume checkAnswer also needs the language
@@ -77,7 +82,7 @@ const CodingChallenge = () => {
       method: 'POST',
       headers: requestHeaders,
       body:JSON.stringify({
-        "lang": `${language}`,
+        "lang": `${language.toUpperCase()}`,
         "source": `${code}`,
         "input": "",
         "memory_limit": 243232,
@@ -87,8 +92,34 @@ const CodingChallenge = () => {
       })
     });
 
-    setOutput(result.json());
-    //.then(result => setOutput(result.compile_status))
+    // after the code is queued for execution to hacker earth, we need to make another call
+    // to hacker earth to get the status of the compilations
+    result.json().then( data => {
+      setOutput({'result': data.result.compile_status});
+      console.log(data.status_update_url);
+      const executionresult = fetch(data.status_update_url, {
+        method: 'GET',
+        headers: requestHeaders,
+      })
+      // after the status update, the execution result is still embeded somewhere in the amazon aws which
+      // I have been trying to figure out how to get but could not figure it out will try in the eventing
+            .then( response => {
+              response.json()
+                .then( data => {
+                  // fetch request to get the code output from amazon, does not work just returns the url back
+                  fetch ( data.result.run_status.output, {
+                    method: 'GET'
+                    })
+                    .then(data => {
+                      console.log(data)
+                    });
+                  // print the output url to console if clicked then downloads the output to a file
+                  console.log(data.result.run_status.output);
+                } )
+            } )
+
+
+    } )
   };
 
   return (
