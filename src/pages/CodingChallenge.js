@@ -50,15 +50,14 @@ const CodingChallenge = () => {
   }, []);
 
 
-  const addLineBreak = (str: string) =>
-  str.split('\n').map((subStr) => {
-    return (
-      <>
-        {subStr}
-        <br />
-      </>
-    );
-  });
+  const addLineBreak = (str) =>
+  str.split('\n').map((subStr, index) => (
+    <React.Fragment key={index}>
+      {subStr}
+      <br />
+    </React.Fragment>
+  ));
+
 
 
 
