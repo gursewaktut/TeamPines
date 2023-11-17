@@ -122,7 +122,7 @@ const CodingChallenge = () => {
         </GridItem>
 
         <GridItem p={4} border="1px" borderColor="white" borderRadius="md"w="90%" rowSpan={1} colSpan={1}>
-          <Text color="green">{addLineBreak(output.result) || 'Output will appear here...'}</Text>
+          <Text color="green">{output.result || 'Output will appear here...'}</Text>
           {output.error && <Text color="red">{addLineBreak(output.error)}</Text>}
         </GridItem>
         <GridItem rowSpan={1} colSpan={1}>
