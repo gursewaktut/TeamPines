@@ -6,7 +6,7 @@ export default function LandingPage() {
     <Box
       className="root"
       position="relative"
-      width="1512px" /* Considering the width from CSS */
+      width="100%" /* Considering the width from CSS */
       height="982px" /* Considering the height from CSS */
       alignItems="flex-start"
       backgroundColor="#1f1717"
@@ -18,9 +18,9 @@ export default function LandingPage() {
       <Image
         src="https://gifdb.com/images/high/animated-chock-coding-c78f6elj32sfoi8q.gif"
         alt="Coding GIF"
-        w={656} // width
-        h={518} // height
-        style={{ position: 'absolute', left: 431, top: 50 }}
+        //w={} // width
+        //h={518} // height
+        style={{ position: 'absolute', left: 520, top: 50 }}
       />
       <Text
         w={360}
@@ -61,7 +61,7 @@ export default function LandingPage() {
         <Button as={Link} to="/courses" color="#CE5A67" size="lg" bg="#F4BF96"  >
           Get Started
         </Button>
-        <Button variant="outline" size="lg" isDisabled>
+        <Button color="white" variant="outline" size="lg" isDisabled>
           I Already Have an Account
         </Button>
       </VStack>
