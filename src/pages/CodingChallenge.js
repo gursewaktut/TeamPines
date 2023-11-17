@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Box, Button, Text, useDisclosure } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
-import Steamship from "@steamship/client"
+// import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
-import { HACKEREARTH_URL as hackerEarthUrl, HACKER_EARTH_KEY as hackerearthKey } from '../constants.js'
+
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('# Type your code here');
@@ -13,26 +13,31 @@ const CodingChallenge = () => {
   const [question, setQuestion] = useState({});
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
-  // trying to execute function after a post request to hackerearth api
-  //const [checkOutput, setCheckOutput] = useState(true);
 
+  // Language mapping for CodeX API
+  const languageMap = {
+    'python': 'py',
+    'javascript': 'js',
+    // Add other mappings as necessary
+  };
+  
   const comments = {python: "#Type your code here", javascript: "//Type your code here", html: "<!-- Type your code here -->" }
 
+  const handleChange = (newCode) => {
+    setCode(newCode);
+  };
 
-  const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
-  requestHeaders.set("client-secret", `${hackerearthKey}`);
+  // Function to handle changes in language selection
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
+  };
 
+  // Function to handle changes in theme selection
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+  };
+  
 
-//  const requestBody = JSON.stringify({
-//    "lang": `${language}`,
-//    "source": `${code}`,
-//    "input": "",
-//    "memory_limit": 243232,
-//    "time_limit": 5,
-//    "context": {id: 213121},
-//    //"callback": "https://client.com/callback/"
-//  });
   useEffect(() => {
     async function loadQuestion() {
       const questionData = await fetchQuestion(); // Fetch the initial question
@@ -42,85 +47,43 @@ const CodingChallenge = () => {
     loadQuestion();
   }, []);
 
-// trying api request every 3 seconds after post request to hacker earth api
-//  useEffect((checkOutput) => {
-//    function getOutput() {
-//      if (checkOutput) {
-//        console.log('output called');
-//        setCheckOutput(false);
-//      }
-//    }
-//    getOutput()
-//    const interval = setInterval(() => getOutput(), 3000)
-//    return () => {
-//      clearInterval(interval);
-//    }
-//  }, []);
 
 
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
-    setCode(comments[event.target.value]);
-  };
+const checkCode = async () => {
+  console.log('checking code');
 
-  const handleThemeChange = (event) => {
-    setTheme(event.target.value);
-  };
+  const CODEX_API_URL = 'https://api.codex.jaagrav.in';
+  const params = new URLSearchParams();
+  params.append('code', code);
+  params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
+  params.append('input', ''); // Add any required input here
 
-  const handleChange = (newValue) => {
-    setCode(newValue);
-  };
-
-  const checkCode = async () => {
-
-    console.log('checking code');
-    //const apiKey = process.env.API_KEY;
-    //console.log(apiKey);
-    //const result = await checkAnswer(code, language); // Assume checkAnswer also needs the language
-    // Handle the result of the code check here
-    const result = await fetch(hackerEarthUrl, {
+  try {
+    const response = await fetch(CODEX_API_URL, {
       method: 'POST',
-      headers: requestHeaders,
-      body:JSON.stringify({
-        "lang": `${language.toUpperCase()}`,
-        "source": `${code}`,
-        "input": "",
-        "memory_limit": 243232,
-        "time_limit": 5,
-        "context": {id: 213121},
-        //"callback": "https://client.com/callback/"
-      })
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params
     });
 
-    // after the code is queued for execution to hacker earth, we need to make another call
-    // to hacker earth to get the status of the compilations
-    result.json().then( data => {
-      setOutput({'result': data.result.compile_status});
-      console.log(data.status_update_url);
-      const executionresult = fetch(data.status_update_url, {
-        method: 'GET',
-        headers: requestHeaders,
-      })
-      // after the status update, the execution result is still embeded somewhere in the amazon aws which
-      // I have been trying to figure out how to get but could not figure it out will try in the eventing
-            .then( response => {
-              response.json()
-                .then( data => {
-                  // fetch request to get the code output from amazon, does not work just returns the url back
-                  fetch ( data.result.run_status.output, {
-                    method: 'GET'
-                    })
-                    .then(data => {
-                      console.log(data)
-                    });
-                  // print the output url to console if clicked then downloads the output to a file
-                  console.log(data.result.run_status.output);
-                } )
-            } )
+    const data = await response.json();
+    console.log(data);
 
+    if (data.error){ 
+    //extracting relevant part of the error message
+    const consiseError = data.error.split('\n').slice(-2).join('\n');
+    setOutput({ result: data.output, error: consiseError });
+    } else {
+      setOutput({result: data.output, error: ''});
+    }
+  } catch (error) {
+    console.error('Error executing code:', error);
+    setOutput({ error: error.message });
+  }
+};
 
-    } )
-  };
+ 
 
   return (
     <Box p={4}>
@@ -138,7 +101,9 @@ const CodingChallenge = () => {
         </Box>
 
         <Box p={4} w={"50%"}>
-          <Text>{output.result || 'Ouput..'}</Text>
+          <Text>{output.result || 'Output will appear here...'}</Text>
+          {output.error && <Text color="red">{output.error}</Text>}
+//to display the execution result
         </Box>
       </Flex>
       <Box display="flex" mt={4}>
