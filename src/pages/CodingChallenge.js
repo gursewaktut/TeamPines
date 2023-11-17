@@ -28,13 +28,14 @@ const CodingChallenge = () => {
   };
 
   // Function to handle changes in language selection
-  const handleLanguageChange = (newLanguage) => {
-    setLanguage(newLanguage);
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
+    setCode(comments[event.target.value]);
   };
 
   // Function to handle changes in theme selection
-  const handleThemeChange = (newTheme) => {
-    setTheme(newTheme);
+  const handleThemeChange = (event) => {
+    setTheme(event.target.value);
   };
   
 
