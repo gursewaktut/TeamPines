@@ -122,9 +122,8 @@ const CodingChallenge = () => {
         </GridItem>
 
         <GridItem p={4} border="1px" borderColor="white" borderRadius="md"w="90%" rowSpan={1} colSpan={1}>
-          <Text color="green">{output.result || 'Output will appear here...'}</Text>
+          <Text color="green">{addLineBreak(output.result) || 'Output will appear here...'}</Text>
           {output.error && <Text color="red">{addLineBreak(output.error)}</Text>}
-          //to display the execution result
         </GridItem>
         <GridItem rowSpan={1} colSpan={1}>
           <Button bg="#CE5A67" color="#FCF5ED" onClick={checkCode} colorScheme="blue">Check Code</Button>
