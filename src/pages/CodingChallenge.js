@@ -18,10 +18,11 @@ const CodingChallenge = () => {
   const languageMap = {
     'python': 'py',
     'javascript': 'js',
+    'cpp': 'cpp',
     // Add other mappings as necessary
   };
   
-  const comments = {python: "#Type your code here", javascript: "//Type your code here", html: "<!-- Type your code here -->" }
+  const comments = {python: "#Type your code here", javascript: "//Type your code here", cpp:  "//Type your code here" }
 
   const handleChange = (newCode) => {
     setCode(newCode);
@@ -49,42 +50,58 @@ const CodingChallenge = () => {
   }, []);
 
 
+  const addLineBreak = (str: string) =>
+  str.split('\n').map((subStr) => {
+    return (
+      <>
+        {subStr}
+        <br />
+      </>
+    );
+  });
 
-const checkCode = async () => {
-  console.log('checking code');
 
-  const CODEX_API_URL = 'https://api.codex.jaagrav.in';
-  const params = new URLSearchParams();
-  params.append('code', code);
-  params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
-  params.append('input', ''); // Add any required input here
 
-  try {
-    const response = await fetch(CODEX_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params
-    });
 
-    const data = await response.json();
-    console.log(data);
+  const checkCode = async () => {
+    console.log('checking code');
 
-    if (data.error){ 
-    //extracting relevant part of the error message
-    const consiseError = data.error.split('\n').slice(-2).join('\n');
-    setOutput({ result: data.output, error: consiseError });
-    } else {
-      setOutput({result: data.output, error: ''});
+    const CODEX_API_URL = 'https://api.codex.jaagrav.in';
+    const params = new URLSearchParams();
+    params.append('code', code);
+    params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
+    params.append('input', ''); // Add any required input here
+
+    try {
+      const response = await fetch(CODEX_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.error){
+        //extracting relevant part of the error message
+        console.log(data.error);
+        const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
+        console.log(consiseError);
+
+        //const consiseError = data.error.split('\n').slice(-2).join('\n');
+        setOutput({ result: data.output, error: consiseError });
+      } else {
+        setOutput({result: data.output, error: ''});
+      }
+    } catch (error) {
+      console.error('Error executing code:', error);
+      setOutput({ error: error.message });
     }
-  } catch (error) {
-    console.error('Error executing code:', error);
-    setOutput({ error: error.message });
-  }
-};
+  };
 
- 
+
 
   return (
     <Box p={4}>
@@ -102,9 +119,9 @@ const checkCode = async () => {
         </Box>
 
         <Box p={4} w={"50%"}>
-          <Text>{output.result || 'Output will appear here...'}</Text>
-          {output.error && <Text color="red">{output.error}</Text>}
-//to display the execution result
+          <Text color="green">{output.result || 'Output will appear here...'}</Text>
+          {output.error && <Text color="red">{addLineBreak(output.error)}</Text>}
+          //to display the execution result
         </Box>
       </Flex>
       <Box display="flex" mt={4}>

@@ -10,7 +10,7 @@ const CodeEditor = ({ onChange, handleLanguageChange, handleThemeChange, languag
       <select value={language} onChange={handleLanguageChange}>
         <option value="python">Python</option>
         <option value="javascript">Javascript</option>
-        <option value="html">HTML</option>
+        <option value="cpp">C++</option>
       </select>
       <select value={theme} onChange={handleThemeChange}>
         <option value="vs-light">VS light</option>
