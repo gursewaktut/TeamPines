@@ -39,27 +39,93 @@ const CodingChallenge = () => {
   };
 
   return (
-    <Box p={4}>
-      <Text mb={4}>{question.text || 'Loading question...'}</Text>
-      <CodeEditor
-        code={code}
-        onChange={handleChange}
-        language={language}
-        theme={theme}
-        handleLanguageChange={handleLanguageChange}
-        handleThemeChange={handleThemeChange}
-      />
-      <Box display="flex" mt={4}>
-        <Button onClick={checkCode} colorScheme="blue">Check Code</Button>
-        <Button onClick={onToggleAnswer} ml={4}>Answer</Button>
-        <Button onClick={onToggleExplanation} ml={4}>Visual Explanation</Button>
+    <Box p={4} style={{ backgroundColor: '#1F1717', position: 'relative', height: "982px", width: "1512px"}}>
+      <Text color="#FCF5ED"
+      fontSize="36px"
+      fontFamily="Abhaya Libre Medium"
+      fontWeight="500"
+      wordWrap="break-word" 
+      position="absolute" left="824px" top="54px"
+      mb={4}>{question.text || 'Loading question...'}</Text>
+      
+      <Box
+        position="absolute"
+        left="805px"
+        top="136px"
+        width="682px"
+        height="723px"
+      >
+        <CodeEditor
+          code={code}
+          onChange={handleChange}
+          language={language}
+          theme={theme}
+          handleLanguageChange={handleLanguageChange}
+          handleThemeChange={handleThemeChange}
+        />
       </Box>
 
+      <Box display="flex" mt={4} w="100%">
+      <Box flex="1" mr={4}>
+        <Button
+          onClick={onToggleAnswer}
+          bg="#CE5A67"
+          color="#FCF5ED"
+          w="324px"
+          h="78px"
+          fontSize="36px"
+          fontFamily="Abhaya Libre Medium"
+          position="absolute"
+        left="30px"
+        top="32px"
+        borderRadius="30px"
+        >
+          Answer
+        </Button>
+      </Box>
+      <Box flex="1">
+        <Button
+          onClick={onToggleExplanation}
+          bg="#CE5A67"
+          color="#FCF5ED"
+          w="324px"
+          h="78px"
+          fontSize="36px"
+          fontFamily="Abhaya Libre Medium"
+          position="absolute"
+        left="390px"
+        top="32px"
+        borderRadius="30px"
+        >
+          Visual Explanation
+        </Button>
+      </Box>
+      <Box flex="1">
+        <Button
+          onClick={checkCode}
+          bg="#CE5A67"
+          color="#FCF5ED"
+          w="324px"
+          h="78px"
+          fontSize="36px"
+          fontFamily="Abhaya Libre Medium"
+          position="absolute"
+        left="1136px"
+        top="859px"
+        borderRadius="30px"
+        >
+          Check Code
+        </Button>
+      </Box>
+    </Box>
+
+<Box display="flex" mt={4} position="relative">
       {isAnswerOpen && <Text mt={4}>{question.answer}</Text>}
       {isExplanationOpen && <Box>{/* Render visual explanation here */}</Box>}
 
-      {/* Include the "Tutor Mode" chatbot interface */}
-      {/* This will be a separate component to include here*/}
+      <Box width="777px" height="0" background="#FCF5ED" border="3px #FCF5ED solid" position="absolute" left="0" top="100px"/>
+      <Box height="982.09px" width="0" background="#FCF5ED" border="3px #FCF5ED solid" position="absolute" left="777" top="-72px"/>
+    </Box>
     </Box>
   );
 };
