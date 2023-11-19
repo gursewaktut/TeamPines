@@ -19,7 +19,7 @@ export default function CourseSelection() {
         {courses.map((course) => (
           <Button key={course.name} onClick={() => navigate(course.path)}>
             <Box textAlign="center">
-              <Image src={course.icon} alt={course.name} boxSize="50px" mb={3} />
+              <Image id="python" src={course.icon} alt={course.name} boxSize="50px" mb={3} />
               <Text fontSize="xl">{course.name}</Text>
             </Box>
           </Button>

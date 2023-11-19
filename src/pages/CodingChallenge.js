@@ -7,7 +7,7 @@ import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock fu
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('# Type your code here');
-  const [output, setOutput] = useState({});
+  const [output, setOutput] = useState({result: "Output will be here...."});
   const [language, setLanguage] = useState('python');
   const [theme, setTheme] = useState('vs-dark');
   const [question, setQuestion] = useState({});
@@ -121,14 +121,14 @@ const CodingChallenge = () => {
         </GridItem>
 
         <GridItem p={4} border="1px" borderColor="white" borderRadius="md"w="90%" rowSpan={1} colSpan={1}>
-          <Text color="green">{output.result || 'Output will appear here...'}</Text>
+          <Text color="green">{addLineBreak(output.result) || 'Output will appear here...'}</Text>
           {output.error && <Text color="red">{addLineBreak(output.error)}</Text>}
         </GridItem>
         <GridItem rowSpan={1} colSpan={1}>
           <Button bg="#CE5A67" color="#FCF5ED" onClick={checkCode} colorScheme="blue">Check Code</Button>
           <Button bg="#CE5A67" color="#FCF5ED" onClick={onToggleAnswer} ml={4}>Answer</Button>
         </GridItem>
-        <GridItem rosSpan={1} colSpan={1}>
+        <GridItem rowSpan={1} colSpan={1}>
           <Button bg="#CE5A67" color="#FCF5ED" onClick={onToggleExplanation} ml={4}>Visual Explanation</Button>
         </GridItem>
       </Grid>

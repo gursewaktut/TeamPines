@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "selenium-webdriver": "^4.15.0"
   }
 }
