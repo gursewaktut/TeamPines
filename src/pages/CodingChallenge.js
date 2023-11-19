@@ -3,6 +3,7 @@ import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure } from '@chakra-
 import CodeEditor from '../components/CodeEditor';
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
+import { addLineBreak } from '../helpers/functions.js';
 
 
 const CodingChallenge = () => {
@@ -50,13 +51,6 @@ const CodingChallenge = () => {
   }, []);
 
 
-  const addLineBreak = (str) =>
-  str.split('\n').map((subStr, index) => (
-    <React.Fragment key={index}>
-      {subStr}
-      <br />
-    </React.Fragment>
-  ));
 
 
 
