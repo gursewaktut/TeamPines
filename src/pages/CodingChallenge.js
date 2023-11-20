@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Text, useDisclosure } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
-import Steamship from "@steamship/client"
-import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
+import { fetchQuestion, checkAnswer } from '../api/steamShip_client';
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('// Type your code here');
@@ -11,10 +10,11 @@ const CodingChallenge = () => {
   const [question, setQuestion] = useState({});
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
+  const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode} = useDisclosure();
 
   useEffect(() => {
     async function loadQuestion() {
-      const questionData = await fetchQuestion(); // Fetch the initial question
+      const questionData = await fetchQuestion();
       setQuestion(questionData);
     }
     
@@ -34,99 +34,69 @@ const CodingChallenge = () => {
   };
 
   const checkCode = async () => {
-    const result = await checkAnswer(code, language); // Assume checkAnswer also needs the language
+    const result = await checkAnswer(code, language);
     // Handle the result of the code check here
   };
 
+  const containerStyles = {
+    backgroundColor: '#1f1717', // Background color for the entire interface
+    minHeight: '100vh',
+    position: 'relative',
+  };
+
+  // Dynamic styles for CodeEditor positioning
+  const codeEditorStyles = {
+    position: 'absolute',
+    left: '72%', // Adjust left positioning dynamically
+    top: '32%', // Adjust top positioning dynamically
+    transform: 'translate(-50%, -50%)',
+    width: '50%', // Adjust width dynamically
+    height: '60%', // Adjust height dynamically
+  };
+
+  const checkCodeStyle = {
+    position: 'absolute',
+    left: '90%', // Adjust left positioning dynamically
+    top: '95%', // Adjust top positioning dynamically
+    transform: 'translate(-50%, -50%)',
+    width: '5%', // Adjust width dynamically
+    height: '5%', // Adjust height dynamically
+    
+  }
+
+  const questionStyle = {
+    position: 'absolute',
+    left: '12%', // Adjust left positioning dynamically
+    top: '15%', // Adjust top positioning dynamically
+    transform: 'translate(-50%, -50%)',
+    width: '20%', // Adjust width dynamically
+    height: '5%', 
+    color: "#FCF5ED"
+  }
   return (
-    <Box p={4} style={{ backgroundColor: '#1F1717', position: 'relative', height: "982px", width: "1512px"}}>
-      <Text color="#FCF5ED"
-      fontSize="36px"
-      fontFamily="Abhaya Libre Medium"
-      fontWeight="500"
-      wordWrap="break-word" 
-      position="absolute" left="824px" top="54px"
-      mb={4}>{question.text || 'Loading question...'}</Text>
-      
-      <Box
-        position="absolute"
-        left="805px"
-        top="136px"
-        width="682px"
-        height="723px"
-      >
-        <CodeEditor
-          code={code}
-          onChange={handleChange}
-          language={language}
-          theme={theme}
-          handleLanguageChange={handleLanguageChange}
-          handleThemeChange={handleThemeChange}
-        />
+    <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
+      <Box style = {questionStyle} flex={1} display="flex" flexDirection="column">
+        <Text mb={4}>{question.text || 'Loading question...'} </Text>
+        </Box>
+        <Box style={codeEditorStyles}>
+          <CodeEditor
+            code={code}
+            onChange={handleChange}
+            language={language}
+            theme={theme}
+            handleLanguageChange={handleLanguageChange}
+            handleThemeChange={handleThemeChange}
+          />
+        </Box> 
+        <Box display="flex" justifyContent="flex-end" mt={4}>
+          <Box style={checkCodeStyle}  >
+          <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}>Check Code</Button>
+          </Box>
+          <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Answer</Button>
+          <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Visual Explanation</Button>
+          <Button onClick={onToggleTutorMode} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Tutor Mode</Button>
+        </Box>
       </Box>
-
-      <Box display="flex" mt={4} w="100%">
-      <Box flex="1" mr={4}>
-        <Button
-          onClick={onToggleAnswer}
-          bg="#CE5A67"
-          color="#FCF5ED"
-          w="324px"
-          h="78px"
-          fontSize="36px"
-          fontFamily="Abhaya Libre Medium"
-          position="absolute"
-        left="30px"
-        top="32px"
-        borderRadius="30px"
-        >
-          Answer
-        </Button>
-      </Box>
-      <Box flex="1">
-        <Button
-          onClick={onToggleExplanation}
-          bg="#CE5A67"
-          color="#FCF5ED"
-          w="324px"
-          h="78px"
-          fontSize="36px"
-          fontFamily="Abhaya Libre Medium"
-          position="absolute"
-        left="390px"
-        top="32px"
-        borderRadius="30px"
-        >
-          Visual Explanation
-        </Button>
-      </Box>
-      <Box flex="1">
-        <Button
-          onClick={checkCode}
-          bg="#CE5A67"
-          color="#FCF5ED"
-          w="324px"
-          h="78px"
-          fontSize="36px"
-          fontFamily="Abhaya Libre Medium"
-          position="absolute"
-        left="1136px"
-        top="859px"
-        borderRadius="30px"
-        >
-          Check Code
-        </Button>
-      </Box>
-    </Box>
-
-<Box display="flex" mt={4} position="relative">
-      {isAnswerOpen && <Text mt={4}>{question.answer}</Text>}
-      {isExplanationOpen && <Box>{/* Render visual explanation here */}</Box>}
-
-      <Box width="777px" height="0" background="#FCF5ED" border="3px #FCF5ED solid" position="absolute" left="0" top="100px"/>
-      <Box height="982.09px" width="0" background="#FCF5ED" border="3px #FCF5ED solid" position="absolute" left="777" top="-72px"/>
-    </Box>
-    </Box>
   );
 };
 

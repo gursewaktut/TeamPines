@@ -14,7 +14,7 @@ export default function CourseSelection() {
 
   return (
     <Box textAlign="center" py={10}>
-      <Text fontSize="3xl" fontWeight="bold" mb={6}>Pick your Poison</Text>
+      <Text fontSize="5xl" fontWeight="bold" mb={6}>Pick your Poison</Text>
       <SimpleGrid columns={{ base: 2, md: 4 }} spacing={5}>
         {courses.map((course) => (
           <Button key={course.name} onClick={() => navigate(course.path)}>
