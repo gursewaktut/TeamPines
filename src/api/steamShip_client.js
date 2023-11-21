@@ -6,9 +6,36 @@ const url = "https://gursewaktut.steamship.run/teampines-t91i66/teampines"
 const steamship = new Steamship({
     apiKey : "23A44372-4E75-4947-906B-A140E890BECA"
 });
-export const fetchQuestion = () => {
-    return JSON.stringify({API: "Steamship"});
-}
+const questions = [
+    { id: 1, text: " Write a program to print the given number is odd or even." },
+    { id: 2, text: " Write a program to find the given number is positive or negative." },
+    { id: 3, text: " Write a program to find the sum of two numbers." },
+    { id: 4, text: " Write a program to find if the given number is prime or not." },
+    { id: 5, text: " Write a program to check if the given number is palindrome or not." }
+]
+
+export const fetchQuestion = async () => 
+{
+
+    try 
+    {
+        console.log('fetching question');
+        const randomInteger = Math.floor(Math.random() * 5);
+        console.log(randomInteger);
+        console.log(questions[randomInteger]);
+        return JSON.stringify({ API: "Steamship", question: questions[randomInteger] });
+      } 
+      
+      catch (error) 
+      {
+        // Handle errors during the API call
+        console.error('Error fetching question:', error);
+    
+        // Return a JSON string with an error message
+        return JSON.stringify({ error: 'Failed to fetch question' });
+      }
+};
+
 
 export const checkAnswer = () => {
     return JSON.stringify({APIAnswer: "Steamship"});
