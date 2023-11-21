@@ -11,6 +11,9 @@ const CodingChallenge = () => {
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
   const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode} = useDisclosure();
+  const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
+  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
+
 
   useEffect(() => {
     async function loadQuestion() {
@@ -36,6 +39,16 @@ const CodingChallenge = () => {
   const checkCode = async () => {
     const result = await checkAnswer(code, language);
     // Handle the result of the code check here
+  };
+  const handleTutorModeToggle = () => {
+    setIsTutorModeActive(!isTutorModeActive); // Toggle tutor mode state
+    // Perform any additional actions related to toggling tutor mode
+
+    // Open chat window when entering tutor mode
+    if (!isChatOpen && isTutorModeActive) {
+      setIsChatOpen(true);
+      // Any additional logic for chat opening
+    }
   };
 
   const containerStyles = {
@@ -94,7 +107,35 @@ const CodingChallenge = () => {
           </Box>
           <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Answer</Button>
           <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Visual Explanation</Button>
-          <Button onClick={onToggleTutorMode} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Tutor Mode</Button>
+          {isTutorModeActive && isChatOpen && (
+
+            <Box
+            style={{
+              position: 'absolute',
+              left: '20px',
+              bottom: '20px', // Adjust the initial bottom position for the chat window
+              width: '28%',
+              height: '40%',
+              backgroundColor: '#1F1F1F',
+              border: '1px solid #ccc',
+              borderRadius: '5px',
+              padding: '1%',
+              
+            }}
+            >
+              {/* Chat content */}
+              {/* Replace this with your chat content */}
+              <Text fontSize="xl" fontWeight="bold" mb={6} color="#FCF5ED" >TUTOR MODE ON</Text>
+            </Box>
+          )}
+          {/* Button section */}
+          <Box display="flex" justifyContent="flex-end">
+            {/* Existing buttons */}
+            <Button onClick={handleTutorModeToggle} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}>
+              {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
+            </Button>
+          </Box>
+
         </Box>
       </Box>
   );
