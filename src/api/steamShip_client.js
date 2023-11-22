@@ -48,7 +48,7 @@ export const sendMessageToSteamship = async (message) => {
         url: url,
         input: {
             prompt: `${message}`,
-            context_id: "make tea" // Think of this as the chatroom name.
+            context_id: "4444" // Think of this as the chatroom name.
         }
     });
 

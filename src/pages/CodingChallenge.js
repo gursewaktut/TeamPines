@@ -50,12 +50,6 @@ const CodingChallenge = () => {
     loadQuestion();
   }, []);
 
-
-
-
-
-
-
   const checkCode = async () => {
     console.log('checking code');
 
