@@ -6,18 +6,6 @@ import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock fu
 import { addLineBreak } from '../helpers/functions.js';
 
 const CodingChallenge = () => {
-  const [code, setCode] = useState('# Type your code here');
-  const [output, setOutput] = useState({result: "Output will be here...."});
-  const [language, setLanguage] = useState('python');
-  const [theme, setTheme] = useState('vs-dark');
-  const [question, setQuestion] = useState({});
-  const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
-  const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
-  const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode} = useDisclosure();
-  const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
-
-
   // Language mapping for CodeX API
   const languageMap = {
     'python': 'py',
@@ -25,8 +13,20 @@ const CodingChallenge = () => {
     'cpp': 'cpp',
     // Add other mappings as necessary
   };
-  
   const comments = {python: "#Type your code here", javascript: "//Type your code here", cpp:  "//Type your code here" }
+  const [language, setLanguage] = useState('python');
+  const [code, setCode] = useState(comments[language]);
+  const [output, setOutput] = useState({result: "Output will be here...."});
+  const [theme, setTheme] = useState('vs-dark');
+  const [question, setQuestion] = useState({});
+  const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
+  const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
+  const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode} = useDisclosure();
+  const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
+  const [isChatOpen, setIsChatOpen] = useState(true); // State for chat window
+
+
+
 
   const handleChange = (newCode) => {
     setCode(newCode);
