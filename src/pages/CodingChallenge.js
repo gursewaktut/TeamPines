@@ -40,7 +40,7 @@ const CodingChallenge = () => {
 
   return (
     <Box p={4}>
-      <Text mb={4}>{question.text || 'Loading question...'}</Text>
+      <Text mb={4} dangerouslySetInnerHTML={{ __html: question.text || 'Loading question...' }} />
       <CodeEditor
         code={code}
         onChange={handleChange}
