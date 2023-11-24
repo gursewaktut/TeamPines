@@ -7,17 +7,20 @@ const CodeEditor = ({ onChange, handleLanguageChange, handleThemeChange, languag
 
   return (
     <Box borderRadius="10px" borderColor="black.200" border="2px" w="100%" className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
-      <select value={language} onChange={handleLanguageChange}>
-        <option value="python">Python</option>
-        <option value="javascript">Javascript</option>
-        <option value="html">HTML</option>
-      </select>
-      <select value={theme} onChange={handleThemeChange}>
-        <option value="vs-light">VS light</option>
-        <option value="vs-dark">VS dark</option>
-        <option value="hc-black">HC black</option>
-      </select>
+      <div p={4} w="100%">
+        <select id="languages" style={{ backgroundColor: "#1f1717", color:"white" }} value={language} onChange={handleLanguageChange}>
+          <option value="python">Python</option>
+          <option value="javascript">Javascript</option>
+          <option value="cpp">C++</option>
+        </select>
+        <select style={{ backgroundColor: "#1f1717", color:"white" }} value={theme} onChange={handleThemeChange}>
+          <option value="vs-light">VS light</option>
+          <option value="vs-dark">VS dark</option>
+          <option value="hc-black">HC black</option>
+        </select>
+      </div>
       <Editor
+        p={4}
         height="85vh"
         width={`100%`}
         language={language || "javascript"}
