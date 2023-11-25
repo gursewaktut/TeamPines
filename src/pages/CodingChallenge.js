@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
@@ -7,16 +7,16 @@ import { addLineBreak } from '../helpers/functions.js';
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('# Type your code here');
-  const [output, setOutput] = useState({result: "Output will be here...."});
+  const [output, setOutput] = useState({ result: "Output will be here...." });
   const [language, setLanguage] = useState('python');
   const [theme, setTheme] = useState('vs-dark');
   const [question, setQuestion] = useState({});
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
-  const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode} = useDisclosure();
+  const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode } = useDisclosure();
   const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
   const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
-
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   // Language mapping for CodeX API
   const languageMap = {
@@ -25,8 +25,8 @@ const CodingChallenge = () => {
     'cpp': 'cpp',
     // Add other mappings as necessary
   };
-  
-  const comments = {python: "#Type your code here", javascript: "//Type your code here", cpp:  "//Type your code here" }
+
+  const comments = { python: "#Type your code here", javascript: "//Type your code here", cpp: "//Type your code here" }
 
   const handleChange = (newCode) => {
     setCode(newCode);
@@ -42,14 +42,14 @@ const CodingChallenge = () => {
   const handleThemeChange = (event) => {
     setTheme(event.target.value);
   };
-  
+
 
   useEffect(() => {
     async function loadQuestion() {
       const questionData = await fetchQuestion();
       setQuestion(questionData);
     }
-    
+
     loadQuestion();
   }, []);
 
@@ -74,7 +74,7 @@ const CodingChallenge = () => {
       const data = await response.json();
       console.log(data);
 
-      if (data.error){
+      if (data.error) {
         //extracting relevant part of the error message
         console.log(data.error);
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
@@ -82,12 +82,15 @@ const CodingChallenge = () => {
 
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
+        setShowErrorMessage(true);
       } else {
-        setOutput({result: data.output, error: ''});
+        setOutput({ result: data.output, error: '' });
+        setShowErrorMessage(false);
       }
     } catch (error) {
       console.error('Error executing code:', error);
       setOutput({ error: error.message });
+      setShowErrorMessage(true);
     }
   };
   const handleTutorModeToggle = () => {
@@ -123,7 +126,7 @@ const CodingChallenge = () => {
     transform: 'translate(-50%, -50%)',
     width: '5%', // Adjust width dynamically
     height: '5%', // Adjust height dynamically
-    
+
   }
 
   const questionStyle = {
@@ -132,64 +135,87 @@ const CodingChallenge = () => {
     top: '15%', // Adjust top positioning dynamically
     transform: 'translate(-50%, -50%)',
     width: '20%', // Adjust width dynamically
-    height: '5%', 
+    height: '5%',
     color: "#FCF5ED"
   }
 
   return (
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
-      <Box style = {questionStyle} flex={1} display="flex" flexDirection="column">
+      <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
         <Text mb={4}>{question.text || 'Loading question...'} </Text>
+      </Box>
+      <Box style={codeEditorStyles}>
+        <CodeEditor
+          code={code}
+          onChange={handleChange}
+          language={language}
+          theme={theme}
+          handleLanguageChange={handleLanguageChange}
+          handleThemeChange={handleThemeChange}
+        />
+ {showErrorMessage && (
+        <Box
+          style={{
+            position: 'absolute',
+            left: '50%', 
+            bottom: '-95px',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#FCF5ED', // Red background for error message
+            padding: '10px',
+            borderRadius: '5px',
+            zIndex: '999', // Ensure it's on top of other elements
+          }}
+        >
+          <Text color="#ce5a67">{output.error}</Text>
         </Box>
-        <Box style={codeEditorStyles}>
-          <CodeEditor
-            code={code}
-            onChange={handleChange}
-            language={language}
-            theme={theme}
-            handleLanguageChange={handleLanguageChange}
-            handleThemeChange={handleThemeChange}
-          />
+      )}
 
 
-        </Box> 
-        <Box display="flex" justifyContent="flex-end" mt={4}>
-          <Box style={checkCodeStyle}  >
-          <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}>Check Code</Button>
-          </Box>
-          <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Answer</Button>
-          <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }} >Visual Explanation</Button>
-          {isTutorModeActive && isChatOpen && (
+      </Box>
+      <Box display="flex" justifyContent="flex-end" mt={4}>
+        <Box style={checkCodeStyle}  >
+          <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
+        </Box>
+        <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' ,fontFamily: "Roboto Mono"}} >Answer</Button>
+        <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono"}} >Visual Explanation</Button>
+        {isTutorModeActive && isChatOpen && (
 
-            <Box
+          <Box
             style={{
               position: 'absolute',
               left: '20px',
               bottom: '20px', // Adjust the initial bottom position for the chat window
-              width: '28%',
+              width: '43%',
               height: '40%',
               backgroundColor: '#1F1F1F',
-              border: '1px solid #ccc',
               borderRadius: '5px',
+              border: '1px solid #ccc',
               padding: '1%',
-              
+              display: 'flex',
+              justifyContent: 'center',
+
             }}
+          >
+            <Button
+              style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
+              size="md"
+              fontFamily="Roboto Mono"
             >
-              {/* Chat content */}
-              {/* Replace this with your chat content */}
-              <Text fontSize="xl" fontWeight="bold" mb={6} color="#FCF5ED" >TUTOR MODE ON</Text>
-            </Box>
-          )}
-          {/* Button section */}
-          <Box display="flex" justifyContent="flex-end">
-            {/* Existing buttons */}
-            <Button onClick={handleTutorModeToggle} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}>
-              {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
+              Tutor Mode ON
             </Button>
           </Box>
+        )}
 
+        {/* Button section */}
+        <Box display="flex" justifyContent="flex-end">
+          {/* Existing buttons */}
+          <Button onClick={handleTutorModeToggle} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
+            {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
+          </Button>
         </Box>
+
       </Box>
+    </Box>
   );
 };
 

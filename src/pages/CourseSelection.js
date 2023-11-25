@@ -12,7 +12,7 @@ const courses = [
   { name: 'Javascript', icon: 'https://img.icons8.com/color/452/javascript.png', path: '/challenge/Javascript' },
   { name: 'Ruby', icon: 'https://img.icons8.com/color/452/ruby-programming-language.png', path: '/challenge/Ruby' },
   { name: 'CSS', icon: 'https://img.icons8.com/color/452/css3.png', path: '/challenge/CSS' },
-  { name: 'SQL', icon: 'https://img.icons8.com/nolan/452/sql.png', path: '/challenge/SQL' },
+  
   
   // ... other courses
 ];
@@ -28,23 +28,24 @@ export default function CourseSelection() {
 
   return (
     <Box style={containerStyles}>
-      <Box textAlign="center" px={50} py={39}>
-        <Text fontSize="5xl" fontWeight="bold" mb={6} color="#FCF5ED" >PICK YOUR POISON</Text>
-        <SimpleGrid columns={{ base: 2, md: 5 }} spacing={10}>
+      <Box textAlign="center" px={50} py={50}>
+        <Text fontSize="5xl" fontWeight="bold" mb={6} fontFamily="Roboto Mono" color="#FCF5ED" >CHOOSE A LANGUAGE</Text>
+        <SimpleGrid columns={{ base: 2, md: 3 }} spacing={10} >
           {courses.map((course) => (
             <Button
               key={course.name}
               onClick={() => navigate(course.path)}
-              w="100%"
-              h="auto"
+              w="80%"
+              h = "auto"
               p={0}
               bg="#ce5a67"
-              border="none"
-              _hover={{ bg: 'transparent' }}
+              border= '1px solid #ccc'
+              style={{ margin: '20px 20px' }}
+              _hover={{ bg: "#1F1F1F" }}
             >
               <Box textAlign="center">
                 <Image src={course.icon} alt={course.name} boxSize="80px" />
-                <Text fontSize="3xl" mt={2} color="#FCF5ED">
+                <Text fontSize="3xl" mt={2} color="#fcf5ed" fontFamily="Roboto Mono">
                   {course.name}
                 </Text>
               </Box>
