@@ -16,7 +16,9 @@ jobs:
 
     strategy:
       matrix:
+
         node-version: [21.x]
+
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -29,3 +31,4 @@ jobs:
     - run: npm ci
     - run: CI=false npm run build --if-present
     - run: npm test --if-present
+

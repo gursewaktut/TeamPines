@@ -172,6 +172,7 @@ const CodingChallenge = () => {
 
   return (
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
+
       <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
         <Text mb={4}>{question.text || 'Loading question...'} </Text>
       </Box>
@@ -198,6 +199,7 @@ const CodingChallenge = () => {
             }}
           >
             <Text color="#ce5a67">{output.error}</Text>
+
           </Box>
         )}
 
