@@ -37,6 +37,7 @@ export default function CourseSelection() {
               onClick={() => navigate(course.path)}
               w="80%"
               h = "auto"
+              id={course.name}
               p={0}
               bg="#ce5a67"
               border= '1px solid #ccc'
