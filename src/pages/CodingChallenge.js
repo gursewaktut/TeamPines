@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Text, useDisclosure } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.

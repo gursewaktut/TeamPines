@@ -57,7 +57,7 @@ export default function LandingPage() {
         Explore and Master the World of Programming
       </Text>
       <VStack spacing="1rem" position="absolute" bottom="10vh" left="50%" transform="translateX(-50%)">
-        <Button as={Link} to="/courses" color="#CE5A67" size="lg" bg="#F4BF96">
+        <Button id="getstarted" as={Link} to="/courses" color="#CE5A67" size="lg" bg="#F4BF96">
           Get Started
         </Button>
         <Button color="white" variant="outline" size="lg" isDisabled>

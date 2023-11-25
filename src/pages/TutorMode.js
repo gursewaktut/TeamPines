@@ -1,5 +1,7 @@
 // src/pages/TutorMode.js
 import React, { useState, useEffect, useRef } from 'react';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Box, Button, Input, VStack, Text } from '@chakra-ui/react';
 import { sendMessageToSteamship } from '../api/steamShip_client.js'; // Mock function to represent sending messages to Steamship API.
 import { addLineBreak } from '../helpers/functions.js';
@@ -46,7 +48,7 @@ const TutorMode = () => {
               p={2}
               borderRadius="md"
             >
-              {msg.text}
+              <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
             </Text>
           </Box>
         ))}

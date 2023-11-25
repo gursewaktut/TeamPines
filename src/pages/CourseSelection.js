@@ -35,6 +35,7 @@ export default function CourseSelection() {
             <Button
               key={course.name}
               onClick={() => navigate(course.path)}
+              id={course.name}
               w="100%"
               h="auto"
               p={0}
