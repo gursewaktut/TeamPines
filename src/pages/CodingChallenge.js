@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Input, VStack, Grid, GridItem, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { sendMessageToSteamship } from '../api/steamShip_client.js'; // Mock function to represent sending messages to Steamship API.
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
 import { addLineBreak } from '../helpers/functions.js';
@@ -15,8 +18,36 @@ const CodingChallenge = () => {
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
   const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode } = useDisclosure();
   const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
+  const [isChatOpen, setIsChatOpen] = useState(true); // State for chat window
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState('');
+  const [messageLoading, setMessageLoading] = useState(false);
+
+  const sendMessage = async () => {
+    setMessageLoading(true);
+    setMessages((prevMessages) => [...prevMessages, { loading: true, type: 'bot', text: "loading"}]);
+    const trimmedMessage = message.trim();
+    if (trimmedMessage) {
+      // Add the message to the chat display
+      setMessages([...messages, { type: 'user', text: trimmedMessage }]);
+      setMessage('');
+
+      // Send the message to the Steamship API and wait for the response
+      const response = await sendMessageToSteamship(trimmedMessage);
+
+      //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
+      const newMessages = messages;
+      newMessages[newMessages.length -1] = { type: 'bot', text: response};
+      setMessages(newMessages);
+      setMessageLoading(false);
+    }
+  };
+
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   // Language mapping for CodeX API
   const languageMap = {
@@ -153,22 +184,22 @@ const CodingChallenge = () => {
           handleLanguageChange={handleLanguageChange}
           handleThemeChange={handleThemeChange}
         />
- {showErrorMessage && (
-        <Box
-          style={{
-            position: 'absolute',
-            left: '50%', 
-            bottom: '-95px',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: '#FCF5ED', // Red background for error message
-            padding: '10px',
-            borderRadius: '5px',
-            zIndex: '999', // Ensure it's on top of other elements
-          }}
-        >
-          <Text color="#ce5a67">{output.error}</Text>
-        </Box>
-      )}
+        {showErrorMessage && (
+          <Box
+            style={{
+              position: 'absolute',
+              left: '50%', 
+              bottom: '-95px',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#FCF5ED', // Red background for error message
+              padding: '10px',
+              borderRadius: '5px',
+              zIndex: '999', // Ensure it's on top of other elements
+            }}
+          >
+            <Text color="#ce5a67">{output.error}</Text>
+          </Box>
+        )}
 
 
       </Box>
@@ -192,17 +223,53 @@ const CodingChallenge = () => {
               border: '1px solid #ccc',
               padding: '1%',
               display: 'flex',
-              justifyContent: 'center',
+              //justifyContent: 'center',
+              overflow: 'auto',
 
             }}
           >
-            <Button
-              style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
-              size="md"
-              fontFamily="Roboto Mono"
-            >
-              Tutor Mode ON
-            </Button>
+            <Grid w="100%" templateRows='repeat(3, 1fr)'>
+              <GridItem colSpan={1} rowSpan={1}>
+                <Button
+                  style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
+                  size="md"
+                  fontFamily="Roboto Mono"
+                >
+                  Tutor Mode ON
+                </Button>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
+                <VStack as="section" w="100%"  overflowY="auto" p={4} spacing={4} >
+                  {messages.map((msg, index) => (
+                    <Box key={index} borderRadius="md" px={4} bg={msg.type === 'user' ? 'blue.500' : 'green.500'} alignSelf={msg.type === 'user' ? 'flex-end' : 'flex-start'}>
+                      <Text
+
+                        color="white"
+                        //p={2}
+                        borderRadius="md"
+                      >
+                        <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+                      </Text>
+                    </Box>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </VStack>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
+                <Box as="footer" p={4}>
+                  <Input
+                    placeholder="Type your message here..."
+                    color="white"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  />
+                  <Button colorScheme="blue" onClick={sendMessage} mt={2}>
+                    Send
+                  </Button>
+                </Box>
+              </GridItem>
+            </Grid>
           </Box>
         )}
 
