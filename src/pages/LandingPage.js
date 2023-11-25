@@ -35,7 +35,7 @@ export default function LandingPage() {
       <Text
         fontSize="3.5vw" // Using viewport-based font size for responsive text
         color="#ce5a67"
-        fontFamily="Abhaya Libre Medium, sans-serif"
+        fontFamily="Roboto Mono"
         position="absolute"
         left="50%"
         bottom="30vh" // Adjust position from the bottom as needed
@@ -47,7 +47,7 @@ export default function LandingPage() {
       <Text
         fontSize="2.5vw" // Using viewport-based font size for responsive text
         color="#fcf5ed"
-        fontFamily="Abhaya Libre Medium, sans-serif"
+        fontFamily="Roboto Mono"
         position="absolute"
         left="50%"
         bottom="25vh" // Adjust position from the bottom as needed
@@ -57,10 +57,10 @@ export default function LandingPage() {
         Explore and Master the World of Programming
       </Text>
       <VStack spacing="1rem" position="absolute" bottom="10vh" left="50%" transform="translateX(-50%)">
-        <Button id="getstarted" as={Link} to="/courses" color="#CE5A67" size="lg" bg="#F4BF96">
+        <Button id="getstarted" as={Link} to="/courses" color="#CE5A67" size="lg" bg="#F4BF96" fontFamily="Roboto Mono"> 
           Get Started
         </Button>
-        <Button color="white" variant="outline" size="lg" isDisabled>
+        <Button color="white" variant="outline" size="lg" isDisabled fontFamily="Roboto Mono">
           I Already Have an Account
         </Button>
       </VStack>
