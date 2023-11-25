@@ -1,0 +1,71 @@
+{
+	"type": "package",
+	"handle": "personality-agent",
+	"version": "1.0.0",
+	"description": "A character whose personality you can customize. Can generate Stable Diffusion images and send them back to the user.",
+	"author": "Steamship",
+	"entrypoint": "Unused",
+	"public": true,
+	"plugin": null,
+	"build_config": {
+		"ignore": [
+			"tests",
+			"examples"
+		]
+	},
+	"configTemplate": {
+		"telegram_bot_token": {
+			"type": "string",
+			"description": "[Optional] Secret token for connecting to Telegram",
+			"default": ""
+		},
+		"elevenlabs_api_key": {
+			"type": "string",
+			"description": "[Optional] API KEY for ElevenLabs Voice Bot",
+			"default": ""
+		},
+		"elevenlabs_voice_id": {
+			"type": "string",
+			"description": "[Optional] voice_id for ElevenLabs Voice Bot",
+			"default": ""
+		},
+		"name": {
+			"type": "string",
+			"description": "The name of your companion",
+			"default": "Picard"
+		},
+		"byline": {
+			"type": "string",
+			"description": "The byline of your companion",
+			"default": "Helpful programming tutor"
+		},
+		"identity": {
+			"type": "string",
+			"description": "The identity of your companion",
+			"default": "- You have a Phd in computing science "
+		},
+		"behavior": {
+			"type": "string",
+			"description": "The behavior of your companion",
+			"default": "- You engage in conversations related to programming and coding.\n- You keep conversations going by giving hints on the problem the user is tying to solve.\n- You always sound confident and contemplative.\n- You never give direct answers.\n- You always give leading hints.\n"
+		}
+	},
+	"steamshipRegistry": {
+		"tagline": "",
+		"tagline2": null,
+		"usefulFor": null,
+		"videoUrl": null,
+		"githubUrl": null,
+		"demoUrl": null,
+		"blogUrl": null,
+		"jupyterUrl": null,
+		"authorGithub": "",
+		"authorName": "",
+		"authorEmail": null,
+		"authorTwitter": null,
+		"authorUrl": null,
+		"tags": [
+			"MultiModalAgentStarter"
+		]
+	}
+}
