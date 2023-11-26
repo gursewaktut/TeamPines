@@ -23,10 +23,10 @@ const CodingChallenge = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [messageLoading, setMessageLoading] = useState(false);
+  const [answer, setAnswer] = useState();
 
   const sendMessage = async () => {
     setMessageLoading(true);
-    setMessages((prevMessages) => [...prevMessages, { loading: true, type: 'bot', text: "loading"}]);
     const trimmedMessage = message.trim();
     if (trimmedMessage) {
       // Add the message to the chat display
@@ -37,9 +37,8 @@ const CodingChallenge = () => {
       const response = await sendMessageToSteamship(trimmedMessage);
 
       //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
-      const newMessages = messages;
-      newMessages[newMessages.length -1] = { type: 'bot', text: response};
-      setMessages(newMessages);
+
+      setMessages((prevMessages) => [...prevMessages, { loading: true, type: 'bot', text: response}]);
       setMessageLoading(false);
     }
   };
@@ -116,10 +115,20 @@ const CodingChallenge = () => {
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
         console.log(consiseError);
 
+        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+Is the answer right. Just say yes or no.`
+        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
+        setAnswer(solutionBotResponse);
+        solutionBotResponse.then(data => console.log(data));
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
         setShowErrorMessage(true);
       } else {
+        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
+        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
+        setAnswer(solutionBotResponse);
+        solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
         setShowErrorMessage(false);
       }
@@ -247,7 +256,7 @@ const CodingChallenge = () => {
               </GridItem>
               <GridItem colSpan={1} rowSpan={1}>
                 <VStack as="section" w="100%"  overflowY="auto" p={4} spacing={4} >
-                  {messages.map((msg, index) => (
+                  {messages.map((msg, index, array) => (
                     <Box key={index} borderRadius="md" px={4} bg={msg.type === 'user' ? 'blue.500' : 'green.500'} alignSelf={msg.type === 'user' ? 'flex-end' : 'flex-start'}>
                       <Text
 
@@ -255,10 +264,13 @@ const CodingChallenge = () => {
                         //p={2}
                         borderRadius="md"
                       >
-                        <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+                      <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+
+
                       </Text>
                     </Box>
                   ))}
+                  {messageLoading ? <Box borderRadius="md" px={4} bg="green.500" alignSelf='flex-start'> <Text color="white" borderRadius="md">Thinking....</Text></Box> : "" }
                   <div ref={messagesEndRef} />
                 </VStack>
               </GridItem>
@@ -287,13 +299,13 @@ const CodingChallenge = () => {
             {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
           </Button>
         </Box>
-      <Box display="flex" justifyContent="flex-end">
-        {/* Existing buttons */}
-        <Button onClick={handleNextQuestion} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
-          Next Question
-        </Button>
+        <Box display="flex" justifyContent="flex-end">
+          {/* Existing buttons */}
+          <Button onClick={handleNextQuestion} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
+            Next Question
+          </Button>
+        </Box>
       </Box>
-    </Box>
     </Box>
   );
 };

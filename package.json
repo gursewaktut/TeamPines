@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "jest": "^27.5.1",
-    "selenium-webdriver": "^4.15.0"
+    "selenium-webdriver": "^4.15.0",
+    "@babel/plugin-proposal-private-property-in-object": ""
   }
 }
