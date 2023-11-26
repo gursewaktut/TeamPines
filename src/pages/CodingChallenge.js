@@ -75,6 +75,11 @@ const CodingChallenge = () => {
   };
 
 
+  const handleNextQuestion = async () => {
+    const questionData = await fetchQuestion();
+    setQuestion(questionData);
+  };
+
   useEffect(() => {
     async function loadQuestion() {
       const questionData = await fetchQuestion();
@@ -174,7 +179,7 @@ const CodingChallenge = () => {
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
 
       <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
-        <Text mb={4}>{question.text || 'Loading question...'} </Text>
+        <Text mb={4}><Markdown>{question.text || 'Loading question...'}</Markdown> </Text>
       </Box>
       <Box style={codeEditorStyles}>
         <CodeEditor
@@ -282,8 +287,13 @@ const CodingChallenge = () => {
             {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
           </Button>
         </Box>
-
+      <Box display="flex" justifyContent="flex-end">
+        {/* Existing buttons */}
+        <Button onClick={handleNextQuestion} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
+          Next Question
+        </Button>
       </Box>
+    </Box>
     </Box>
   );
 };
