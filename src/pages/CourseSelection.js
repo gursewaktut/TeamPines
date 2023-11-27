@@ -20,7 +20,7 @@ const courses = [
 const containerStyles = {
   backgroundColor: '#1f1717', // Background color for the entire interface
     minHeight: '100vh',
-    position: 'relative',// Set the background color for the whole interface
+    position: 'relative',
 };
 
 export default function CourseSelection() {

@@ -20,6 +20,7 @@ const CodingChallenge = () => {
   const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
   const [isChatOpen, setIsChatOpen] = useState(true); // State for chat window
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [showOutput, setShowOutput] = useState(false);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [messageLoading, setMessageLoading] = useState(false);
@@ -90,12 +91,13 @@ const CodingChallenge = () => {
 
   const checkCode = async () => {
     console.log('checking code');
+    setOutput("");
 
     const CODEX_API_URL = 'https://api.codex.jaagrav.in';
     const params = new URLSearchParams();
     params.append('code', code);
     params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
-    params.append('input', ''); // Add any required input here
+    params.append('input', ''); 
 
     try {
       const response = await fetch(CODEX_API_URL, {
@@ -110,7 +112,7 @@ const CodingChallenge = () => {
       console.log(data);
 
       if (data.error) {
-        //extracting relevant part of the error message
+        
         console.log(data.error);
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
         console.log(consiseError);
@@ -122,7 +124,7 @@ Is the answer right. Just say yes or no.`
         solutionBotResponse.then(data => console.log(data));
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
-        setShowErrorMessage(true);
+        setShowOutput(true);
       } else {
         const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
 This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
@@ -130,56 +132,57 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         setAnswer(solutionBotResponse);
         solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
-        setShowErrorMessage(false);
+        setShowOutput(false);
       }
     } catch (error) {
       console.error('Error executing code:', error);
       setOutput({ error: error.message });
-      setShowErrorMessage(true);
+      setShowOutput(true);
     }
   };
+
+  const handleToggleOutput = () => {
+    setShowOutput(!showOutput);
+  };
+  
   const handleTutorModeToggle = () => {
-    setIsTutorModeActive(!isTutorModeActive); // Toggle tutor mode state
-    // Perform any additional actions related to toggling tutor mode
-    // Open chat window when entering tutor mode
+    setIsTutorModeActive(!isTutorModeActive); 
     if (!isChatOpen && isTutorModeActive) {
       setIsChatOpen(true);
-      // Any additional logic for chat opening
     }
   };
 
   const containerStyles = {
-    backgroundColor: '#1f1717', // Background color for the entire interface
+    backgroundColor: '#1f1717', 
     minHeight: '100vh',
     position: 'relative',
   };
 
-  // Dynamic styles for CodeEditor positioning
   const codeEditorStyles = {
     position: 'absolute',
-    left: '72%', // Adjust left positioning dynamically
-    top: '32%', // Adjust top positioning dynamically
+    left: '72%', 
+    top: '32%', 
     transform: 'translate(-50%, -50%)',
-    width: '50%', // Adjust width dynamically
-    height: '60%', // Adjust height dynamically
+    width: '50%', 
+    height: '60%', 
   };
 
   const checkCodeStyle = {
     position: 'absolute',
-    left: '90%', // Adjust left positioning dynamically
-    top: '95%', // Adjust top positioning dynamically
+    left: '90%', 
+    top: '95%',
     transform: 'translate(-50%, -50%)',
-    width: '5%', // Adjust width dynamically
-    height: '5%', // Adjust height dynamically
+    width: '5%', 
+    height: '5%', 
 
   }
 
   const questionStyle = {
     position: 'absolute',
-    left: '12%', // Adjust left positioning dynamically
-    top: '15%', // Adjust top positioning dynamically
+    left: '12%', 
+    top: '15%', 
     transform: 'translate(-50%, -50%)',
-    width: '20%', // Adjust width dynamically
+    width: '20%', 
     height: '5%',
     color: "#FCF5ED"
   }
@@ -199,39 +202,91 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
           handleLanguageChange={handleLanguageChange}
           handleThemeChange={handleThemeChange}
         />
-        {showErrorMessage && (
-          <Box
-            style={{
-              position: 'absolute',
-              left: '50%', 
-              bottom: '-95px',
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: '#FCF5ED', // Red background for error message
-              padding: '10px',
-              borderRadius: '5px',
-              zIndex: '999', // Ensure it's on top of other elements
-            }}
-          >
-            <Text color="#ce5a67">{output.error}</Text>
-
-          </Box>
-        )}
-
-
       </Box>
+
+
+      {showErrorMessage && (
+        <Box
+          style={{
+            position: 'absolute',
+            right: '85px',
+            bottom: '80px', 
+            width: '43%',
+            height: '32%',
+            backgroundColor: '#cd6873',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            padding: '1%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Text color="#ce5a67">{output.error}</Text>
+        </Box>
+      )}
+
+      {!showOutput && output.result && (
+        <Box
+          style={{
+            position: 'absolute',
+            right: '85px',
+            bottom: '100px',
+            width: '48%',
+            height: '32%',
+            backgroundColor: '#cd6873',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            padding: '1%',
+            display: 'flex',
+            justifyContent: 'start',
+          }}
+        >
+          <Text color="#FCF5ED">{output.result}</Text>
+        </Box>
+      )}
+
+      
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
+          { !showOutput ?
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>
+          }
         </Box>
-        <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' ,fontFamily: "Roboto Mono"}} >Answer</Button>
-        <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono"}} >Visual Explanation</Button>
+        {isAnswerOpen && (
+          <Box
+            style={{
+              position: 'absolute',
+              left: '20px',
+              bottom: '20px',
+              width: '43%',
+              height: '40%',
+              backgroundColor: '#cd6873',
+              borderRadius: '5px',
+              border: '1px solid #ccc',
+              padding: '1%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Text fontSize="xl" mb="4" color="#FCF5ED" >
+              Loading answer...
+            </Text>
+          </Box>
+        )}
+
+        <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >
+          Answer
+        </Button>
+        <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >Visual Explanation</Button>
         {isTutorModeActive && isChatOpen && (
 
           <Box
             style={{
               position: 'absolute',
               left: '20px',
-              bottom: '20px', // Adjust the initial bottom position for the chat window
+              bottom: '20px',
               width: '43%',
               height: '40%',
               backgroundColor: '#1F1F1F',
@@ -250,6 +305,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
                   style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
                   size="md"
                   fontFamily="Roboto Mono"
+                  onClick={handleTutorModeToggle}
                 >
                   Tutor Mode ON
                 </Button>
@@ -292,9 +348,8 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
           </Box>
         )}
 
-        {/* Button section */}
         <Box display="flex" justifyContent="flex-end">
-          {/* Existing buttons */}
+
           <Button onClick={handleTutorModeToggle} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
             {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
           </Button>
