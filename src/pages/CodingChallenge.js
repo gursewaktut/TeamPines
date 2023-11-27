@@ -251,8 +251,8 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         <Box
           style={{
             position: 'absolute',
-            right: '85px',
-            bottom: '100px',
+            right: '105px',
+            bottom: '150px',
             width: '48%',
             height: '32%',
             backgroundColor: '#f5f5dc',
@@ -272,8 +272,8 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
           { !showOutput ?
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', bottom: '12.8px', right: '150px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', bottom: '12.8px', right: '150px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
           }
         </Box>
         {showAnswer && (
