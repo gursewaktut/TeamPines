@@ -10,6 +10,7 @@ import { addLineBreak } from '../helpers/functions.js';
 
 const CodingChallenge = () => {
   const [code, setCode] = useState('# Type your code here');
+  const [index, setIndex] = useState(0);
   const [output, setOutput] = useState({ result: "Output will be here...." });
   const [language, setLanguage] = useState('python');
   const [theme, setTheme] = useState('vs-dark');
@@ -24,7 +25,8 @@ const CodingChallenge = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [messageLoading, setMessageLoading] = useState(false);
-  const [answer, setAnswer] = useState();
+  const [answer, setAnswer] = useState({text: "Loading answer"});
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const sendMessage = async () => {
     setMessageLoading(true);
@@ -76,13 +78,24 @@ const CodingChallenge = () => {
 
 
   const handleNextQuestion = async () => {
-    const questionData = await fetchQuestion();
+    const questionData = await fetchQuestion(index);
+    if (index === 9) {
+      setIndex(0)
+    } else {
+      setIndex(index => index+1);
+    }
     setQuestion(questionData);
   };
 
   useEffect(() => {
     async function loadQuestion() {
-      const questionData = await fetchQuestion();
+      //const questionData = await fetchQuestion();
+      const questionData = await fetchQuestion(index);
+      if (index === 9) {
+        setIndex(0)
+      } else {
+        setIndex(index => index+1);
+      }
       setQuestion(questionData);
     }
 
@@ -91,7 +104,7 @@ const CodingChallenge = () => {
 
   const checkCode = async () => {
     console.log('checking code');
-    setOutput("");
+    setOutput({result: "Output will be here...."});
 
     const CODEX_API_URL = 'https://api.codex.jaagrav.in';
     const params = new URLSearchParams();
@@ -112,31 +125,35 @@ const CodingChallenge = () => {
       console.log(data);
 
       if (data.error) {
-        
+
         console.log(data.error);
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
         console.log(consiseError);
 
-        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
-Is the answer right. Just say yes or no.`
-        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
-        setAnswer(solutionBotResponse);
-        solutionBotResponse.then(data => console.log(data));
+        //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+        //Is the answer right. Just say yes or no.`
+        //const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
+        const solutionBotResponse = 'Your answer is correct';
+        setAnswer({text: 'Your answer is incorrect'});
+        setShowAnswer(true);
+        //solutionBotResponse.then(data => console.log(data));
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
         setShowOutput(true);
+        setShowAnswer(true);
       } else {
         const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
 This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
         const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
-        setAnswer(solutionBotResponse);
+        setAnswer({text: 'Your answer is correct'});
         solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
-        setShowOutput(false);
+        setShowOutput(true);
+        setShowAnswer(true);
       }
     } catch (error) {
       console.error('Error executing code:', error);
-      setOutput({ error: error.message });
+      setOutput({ result: error.message, error: error.message });
       setShowOutput(true);
     }
   };
@@ -144,7 +161,11 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
   const handleToggleOutput = () => {
     setShowOutput(!showOutput);
   };
-  
+
+  const handleToggleAnswer = () => {
+    setShowAnswer(!showAnswer);
+  };
+
   const handleTutorModeToggle = () => {
     setIsTutorModeActive(!isTutorModeActive); 
     if (!isChatOpen && isTutorModeActive) {
@@ -205,27 +226,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
       </Box>
 
 
-      {showErrorMessage && (
-        <Box
-          style={{
-            position: 'absolute',
-            right: '85px',
-            bottom: '80px', 
-            width: '43%',
-            height: '32%',
-            backgroundColor: '#cd6873',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-            padding: '1%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Text color="#ce5a67">{output.error}</Text>
-        </Box>
-      )}
-
-      {!showOutput && output.result && (
+      {showOutput && output.error && (
         <Box
           style={{
             position: 'absolute',
@@ -233,7 +234,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
             bottom: '100px',
             width: '48%',
             height: '32%',
-            backgroundColor: '#cd6873',
+            backgroundColor: '#f5f5dc',
             borderRadius: '5px',
             border: '1px solid #ccc',
             padding: '1%',
@@ -241,20 +242,41 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
             justifyContent: 'start',
           }}
         >
-          <Text color="#FCF5ED">{output.result}</Text>
+
+          <Text color="red"><Markdown remarkPlugins={[remarkGfm]}>{output.error}</Markdown></Text>
         </Box>
       )}
 
-      
+      {showOutput && output.result && (
+        <Box
+          style={{
+            position: 'absolute',
+            right: '85px',
+            bottom: '100px',
+            width: '48%',
+            height: '32%',
+            backgroundColor: '#f5f5dc',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            padding: '1%',
+            display: 'flex',
+            justifyContent: 'start',
+          }}
+        >
+          <Text color="green">{output.result}</Text>
+        </Box>
+      )}
+
+
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
           { !showOutput ?
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>:
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
           }
         </Box>
-        {isAnswerOpen && (
+        {showAnswer && (
           <Box
             style={{
               position: 'absolute',
@@ -262,21 +284,22 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
               bottom: '20px',
               width: '43%',
               height: '40%',
-              backgroundColor: '#cd6873',
+              backgroundColor: '#f5f5dc',
               borderRadius: '5px',
               border: '1px solid #ccc',
               padding: '1%',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'start',
+              overflow: 'auto'
             }}
           >
-            <Text fontSize="xl" mb="4" color="#FCF5ED" >
-              Loading answer...
+            <Text fontSize="xl" mb="4" color="green" >
+              {answer.text}
             </Text>
           </Box>
         )}
 
-        <Button onClick={onToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >
+        <Button onClick={handleToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >
           Answer
         </Button>
         <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >Visual Explanation</Button>
@@ -320,7 +343,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
                         //p={2}
                         borderRadius="md"
                       >
-                      <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+                        <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
 
 
                       </Text>

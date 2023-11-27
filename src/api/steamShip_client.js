@@ -8,10 +8,10 @@ const steamship = new Steamship({
     apiKey : "23A44372-4E75-4947-906B-A140E890BECA"
 });
 // Mock function to represent the API call
-export const fetchQuestion = async () => {
+export const fetchQuestion = async (index) => {
     // Array of 10 questions
     const questions = [
-      { text: 'Given the head of a singly linked list, reverse the list, and return the reversed list.  \n Example: \n 1 -> 2 -> 3 -> 4 -> 5 \n ⬇️ \n 5 -> 4 -> 3 -> 2 -> 1'},
+      { text: 'Given the head of a singly linked list, reverse the list, and return the reversed list.  \n Example: \n 1 -> 2 -> 3 -> 4 -> 5 \n\n ⬇️ \n\n 5 -> 4 -> 3 -> 2 -> 1'},
       { text: 'Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.' },
       { text: `Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack. 
         \nExample:
@@ -86,7 +86,7 @@ export const fetchQuestion = async () => {
     ];
     // Randomly select a question from the array
     const randomIndex = Math.floor(Math.random() * questions.length);
-    const selectedQuestion = questions[randomIndex];
+    const selectedQuestion = questions[index];
 
     //selectedQuestion.text = selectedQuestion.text.replace(/<br>/g, '\n');
   
@@ -94,7 +94,7 @@ export const fetchQuestion = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(selectedQuestion);
-      }, 1000); // Simulating a delay of 1 second
+      }, 500); // Simulating a delay of 1 second
     });
   };
   
