@@ -163,7 +163,13 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
   };
 
   const handleToggleAnswer = () => {
-    setShowAnswer(!showAnswer);
+    setAnswer({text: "Loading answer.... "})
+    const prompt = `This is the question: ${question.text}, \n give me the solution to this using ${language}`;
+    console.log(prompt);
+    const response = sendMessageToSteamship(prompt);
+    response.then( data => setAnswer({text: data}) );
+    //setAnswer({text: response});
+    setShowAnswer(true);
   };
 
   const handleTutorModeToggle = () => {
@@ -294,7 +300,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
             }}
           >
             <Text fontSize="xl" mb="4" color="green" >
-              {answer.text}
+              <Markdown>{answer.text}</Markdown>
             </Text>
           </Box>
         )}
