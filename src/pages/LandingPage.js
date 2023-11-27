@@ -6,8 +6,8 @@ export default function LandingPage() {
     <Box
       className="root"
       position="relative"
-      width="100%" // Set the width to 100% for responsiveness
-      height="100vh" // Using full viewport height for the landing page
+      width="100%" 
+      height="100vh" 
       alignItems="flex-start"
       backgroundColor="#1f1717"
       overflow="hidden"
@@ -18,39 +18,39 @@ export default function LandingPage() {
       <Image
         src="https://gifdb.com/images/high/animated-chock-coding-c78f6elj32sfoi8q.gif"
         alt="Coding GIF"
-        w="50%" // Adjust the width as needed
-        style={{ position: 'absolute', left: '25%', top: '5%' }} // Position relatively within the container
+        w="50%" 
+        style={{ position: 'absolute', left: '25%', top: '5%' }} 
       />
       <Text
-        fontSize="4vw" // Using viewport-based font size for responsive text
+        fontSize="4vw" 
         color="#FCF5ED"
         fontFamily="Black Han Sans"
         fontWeight="400"
         wordBreak="break-word"
-        mt="5%" // Adjust margin top as needed
+        mt="5%"
       >
         CodeMentor AI
       </Text>
 
       <Text
-        fontSize="3.5vw" // Using viewport-based font size for responsive text
+        fontSize="3.5vw" 
         color="#ce5a67"
         fontFamily="Roboto Mono"
         position="absolute"
         left="50%"
-        bottom="30vh" // Adjust position from the bottom as needed
+        bottom="30vh"
         transform="translateX(-50%)"
         whiteSpace="nowrap"
       >
         Start Your Coding Journey
       </Text>
       <Text
-        fontSize="2.5vw" // Using viewport-based font size for responsive text
+        fontSize="2.5vw"
         color="#fcf5ed"
         fontFamily="Roboto Mono"
         position="absolute"
         left="50%"
-        bottom="25vh" // Adjust position from the bottom as needed
+        bottom="25vh"
         transform="translateX(-50%)"
         whiteSpace="nowrap"
       >
