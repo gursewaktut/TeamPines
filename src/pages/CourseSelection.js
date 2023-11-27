@@ -34,9 +34,11 @@ export default function CourseSelection() {
           {courses.map((course) => (
             <Button
               key={course.name}
+              id={course.name}
               onClick={() => navigate(course.path)}
               w="80%"
               h = "auto"
+              id={course.name}
               p={0}
               bg="#ce5a67"
               border= '1px solid #ccc'

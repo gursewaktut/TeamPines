@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, GridItem, Flex, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Input, VStack, Grid, GridItem, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { sendMessageToSteamship } from '../api/steamShip_client.js'; // Mock function to represent sending messages to Steamship API.
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
 import { addLineBreak } from '../helpers/functions.js';
@@ -15,8 +18,36 @@ const CodingChallenge = () => {
   const { isOpen: isExplanationOpen, onToggle: onToggleExplanation } = useDisclosure();
   const { isOpen: isTutorModeOpen, onToggle: onToggleTutorMode } = useDisclosure();
   const [isTutorModeActive, setIsTutorModeActive] = useState(false); // New state for tutor mode
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
+  const [isChatOpen, setIsChatOpen] = useState(true); // State for chat window
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [showOutput, setShowOutput] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState('');
+  const [messageLoading, setMessageLoading] = useState(false);
+  const [answer, setAnswer] = useState();
+
+  const sendMessage = async () => {
+    setMessageLoading(true);
+    const trimmedMessage = message.trim();
+    if (trimmedMessage) {
+      // Add the message to the chat display
+      setMessages([...messages, { type: 'user', text: trimmedMessage }]);
+      setMessage('');
+
+      // Send the message to the Steamship API and wait for the response
+      const response = await sendMessageToSteamship(trimmedMessage);
+
+      //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
+
+      setMessages((prevMessages) => [...prevMessages, { loading: true, type: 'bot', text: response}]);
+      setMessageLoading(false);
+    }
+  };
+
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   // Language mapping for CodeX API
   const languageMap = {
@@ -43,6 +74,12 @@ const CodingChallenge = () => {
     setTheme(event.target.value);
   };
 
+
+  const handleNextQuestion = async () => {
+    const questionData = await fetchQuestion();
+    setQuestion(questionData);
+  };
+
   useEffect(() => {
     async function loadQuestion() {
       const questionData = await fetchQuestion();
@@ -54,6 +91,7 @@ const CodingChallenge = () => {
 
   const checkCode = async () => {
     console.log('checking code');
+    setOutput("");
 
     const CODEX_API_URL = 'https://api.codex.jaagrav.in';
     const params = new URLSearchParams();
@@ -79,20 +117,33 @@ const CodingChallenge = () => {
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
         console.log(consiseError);
 
-        
+        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+Is the answer right. Just say yes or no.`
+        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
+        setAnswer(solutionBotResponse);
+        solutionBotResponse.then(data => console.log(data));
+        //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
-        setShowErrorMessage(true);
+        setShowOutput(true);
       } else {
+        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
+        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
+        setAnswer(solutionBotResponse);
+        solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
-        setShowErrorMessage(false);
+        setShowOutput(false);
       }
     } catch (error) {
       console.error('Error executing code:', error);
       setOutput({ error: error.message });
-      setShowErrorMessage(true);
+      setShowOutput(true);
     }
   };
 
+  const handleToggleOutput = () => {
+    setShowOutput(!showOutput);
+  };
   
   const handleTutorModeToggle = () => {
     setIsTutorModeActive(!isTutorModeActive); 
@@ -138,8 +189,9 @@ const CodingChallenge = () => {
 
   return (
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
+
       <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
-        <Text mb={4}>{question.text || 'Loading question...'} </Text>
+        <Text mb={4}><Markdown>{question.text || 'Loading question...'}</Markdown> </Text>
       </Box>
       <Box style={codeEditorStyles}>
         <CodeEditor
@@ -173,20 +225,20 @@ const CodingChallenge = () => {
         </Box>
       )}
 
-      {!showErrorMessage && output.result && (
+      {!showOutput && output.result && (
         <Box
           style={{
             position: 'absolute',
             right: '85px',
-            bottom: '80px', 
-            width: '43%',
+            bottom: '100px',
+            width: '48%',
             height: '32%',
             backgroundColor: '#cd6873',
             borderRadius: '5px',
             border: '1px solid #ccc',
             padding: '1%',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'start',
           }}
         >
           <Text color="#FCF5ED">{output.result}</Text>
@@ -197,6 +249,10 @@ const CodingChallenge = () => {
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
+          { !showOutput ?
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>
+          }
         </Box>
         {isAnswerOpen && (
           <Box
@@ -238,27 +294,72 @@ const CodingChallenge = () => {
               border: '1px solid #ccc',
               padding: '1%',
               display: 'flex',
-              justifyContent: 'center',
+              //justifyContent: 'center',
+              overflow: 'auto',
 
             }}
           >
-            <Button
-              style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
-              size="md"
-              fontFamily="Roboto Mono"
-            >
-              Tutor Mode ON
-            </Button>
+            <Grid w="100%" templateRows='repeat(3, 1fr)'>
+              <GridItem colSpan={1} rowSpan={1}>
+                <Button
+                  style={{ backgroundColor: '#ce5a67', color: '#FCF5ED' }}
+                  size="md"
+                  fontFamily="Roboto Mono"
+                  onClick={handleTutorModeToggle}
+                >
+                  Tutor Mode ON
+                </Button>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
+                <VStack as="section" w="100%"  overflowY="auto" p={4} spacing={4} >
+                  {messages.map((msg, index, array) => (
+                    <Box key={index} borderRadius="md" px={4} bg={msg.type === 'user' ? 'blue.500' : 'green.500'} alignSelf={msg.type === 'user' ? 'flex-end' : 'flex-start'}>
+                      <Text
+
+                        color="white"
+                        //p={2}
+                        borderRadius="md"
+                      >
+                      <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+
+
+                      </Text>
+                    </Box>
+                  ))}
+                  {messageLoading ? <Box borderRadius="md" px={4} bg="green.500" alignSelf='flex-start'> <Text color="white" borderRadius="md">Thinking....</Text></Box> : "" }
+                  <div ref={messagesEndRef} />
+                </VStack>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
+                <Box as="footer" p={4}>
+                  <Input
+                    placeholder="Type your message here..."
+                    color="white"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  />
+                  <Button colorScheme="blue" onClick={sendMessage} mt={2}>
+                    Send
+                  </Button>
+                </Box>
+              </GridItem>
+            </Grid>
           </Box>
         )}
 
         <Box display="flex" justifyContent="flex-end">
-         
+
           <Button onClick={handleTutorModeToggle} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
             {isTutorModeActive ? 'Exit Tutor Mode' : 'Tutor Mode'}
           </Button>
         </Box>
-
+        <Box display="flex" justifyContent="flex-end">
+          {/* Existing buttons */}
+          <Button onClick={handleNextQuestion} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>
+            Next Question
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
