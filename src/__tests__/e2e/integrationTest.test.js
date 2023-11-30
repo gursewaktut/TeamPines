@@ -6,7 +6,7 @@ const actions = driver.actions({bridge: true});
 // Instantiate a web browser page
 describe('LanguageSelection', () => {
   it('checks if the language selected is the same as language being used', async () => {
-    await driver.navigate().to("localhost:3000/")
+    await driver.navigate().to("https://codingpines.com")
       .then(() => driver.findElement(By.id("getstarted")))
       .then(element => element.click())
       .then(() => driver.findElement(By.id("Python")))
@@ -14,7 +14,7 @@ describe('LanguageSelection', () => {
       .then(() => driver.findElement(By.id("languages")))
       .then(element => element.getAttribute('value'))
       .then(value => {
-        console.log(value);
+        //console.log(value);
         expect(value).toBe('python');
         driver.quit();
       });
