@@ -13,3 +13,16 @@ describe('CodingChallenge', () => {
     expect(checkCodeButton).toBeInTheDocument();
   });
 });
+
+describe('CodingChallenge', () => {
+  it('Checks if Tutor mode comes on', () => {
+    render(<CodingChallenge />);
+
+    // Check if the button text is in the document
+    const tutorModeButton = screen.getByText('Tutor Mode');
+    //expect(tutorModeButton).toBeInTheDocument();
+    fireEvent.click(tutorModeButton);
+    expect(screen.getByText('Tutor Mode ON')).toBeInTheDocument();
+  });
+});
+

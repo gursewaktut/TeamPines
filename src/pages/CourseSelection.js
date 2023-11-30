@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const courses = [
   { name: 'Python', icon:'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg', path: '/challenge/python' },
   { name: 'C++', icon: 'https://img.icons8.com/color/452/c-plus-plus-logo.png', path: '/challenge/cpp' },
+  { name: 'Javascript', icon: 'https://img.icons8.com/color/452/javascript.png', path: '/challenge/Javascript' },
   { name: 'Java', icon: 'https://cdn.iconscout.com/icon/free/png-512/java-43-569305.png', path: '/challenge/java' },
   { name: 'C', icon: 'https://img.icons8.com/color/452/c-programming.png', path: '/challenge/C' },
   { name: 'HTML', icon: 'https://cdn-icons-png.flaticon.com/512/919/919827.png', path: '/challenge/html' },
   { name: 'Swift', icon: 'https://cdn-icons-png.flaticon.com/512/732/732250.png', path: '/challenge/Swift' },
-  { name: 'Javascript', icon: 'https://img.icons8.com/color/452/javascript.png', path: '/challenge/Javascript' },
   { name: 'Ruby', icon: 'https://img.icons8.com/color/452/ruby-programming-language.png', path: '/challenge/Ruby' },
   { name: 'CSS', icon: 'https://img.icons8.com/color/452/css3.png', path: '/challenge/CSS' },
   
@@ -35,11 +35,15 @@ export default function CourseSelection() {
             <Button
               key={course.name}
               id={course.name}
-              onClick={() => navigate(course.path)}
+              onClick={() => {
+                (course.name !== "Python" && course.name !== "C++" && course.name !== "Javascript") ? navigate(courses[0].path) : navigate(course.path)
+              }}
               w="80%"
               h = "auto"
               id={course.name}
               p={0}
+              disabled = {(course.name !== "Python" || course.name !== "C++" || course.name !== "Javascript") ? true : false}
+              //{{(course.name != "Python" || course.name != "C++" || course.name != "Javascript") ? isDisabled : ""}}
               bg="#ce5a67"
               border= '1px solid #ccc'
               style={{ margin: '20px 20px' }}
