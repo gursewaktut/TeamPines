@@ -1,5 +1,6 @@
 import { fetchQuestion, sendMessageToSteamship } from '../../api/steamShip_client.js';
 
+
 jest.setTimeout(15000);
 
 describe('fetchQuestion', () => {
@@ -13,10 +14,10 @@ describe('fetchQuestion', () => {
     });
 });
 
-describe('sendMessageToSteamship', () => {
-    test('returns the expected response', async () => {
-      const message = 'Test message';
-      const response = await sendMessageToSteamship(message);
-      expect(typeof response).toBe('string');
-    }, 15000);
+describe('SendMessageToSteamship', () => {
+  test('returns a response object', async () => {
+    const message = 'Test Message';
+    const response = await sendMessageToSteamship(message);
+    expect(typeof response).toBe('string');
+  }, 15000);
 });

@@ -1,7 +1,7 @@
 {
 	"type": "package",
-	"handle": "answer-agent",
-	"version": "1.0.0",
+	"handle": "personality-agent",
+	"version": "visual-input-1.0.1",
 	"description": "A character whose personality you can customize. Can generate Stable Diffusion images and send them back to the user.",
 	"author": "Steamship",
 	"entrypoint": "Unused",
@@ -47,7 +47,7 @@
 		"behavior": {
 			"type": "string",
 			"description": "The behavior of your companion",
-			"default": "- You give direct answers to the question.\n- You don't give long explanation of anything.\n- You keep explanation short while still giving useful information about the question.\n"
+			"default": "- You provide visual explanation of the code or the problem question using markdown\n- You do not respond to any other question than visual explanation\n- You always sound confident and contemplative.\n- You give good explanation of the visual that you produce.\n- Visual explanation should include arrows like ->.\n- The names and labels used in the visual diagram should have close match to how they would be described in real world.\n- If a user asks to check an answer with the question, then you only reply whether the answer is right or wrong.\n- The answer of the user must satisfy the conditions of the question for it to be correct.\n- All other answers are wrong\n"
 		}
 	},
 	"steamshipRegistry": {

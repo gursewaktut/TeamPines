@@ -1,7 +1,7 @@
 // CodingChallenge.test.js
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CodingChallenge from '../../pages/CodingChallenge'; // Adjust the import path as necessary
+import CodingChallenge from '../../pages/CodingChallenge'; 
 
 
 describe('CodingChallenge', () => {
@@ -15,7 +15,7 @@ describe('CodingChallenge', () => {
 });
 
 describe('CodingChallenge', () => {
-  it('Checks if Tutor mode comes on', () => {
+  it('Checks that clicking the Tutor Mode button once opens the tutor mode', () => {
     render(<CodingChallenge />);
 
     // Check if the button text is in the document
@@ -27,7 +27,7 @@ describe('CodingChallenge', () => {
 });
 
 describe('CodingChallenge', () => {
-  it('Checks if Tutor mode comes off', async () => {
+  it('Checks that clicking the Tutor Mode button twice closes the tutor mode after opening', async () => {
     render(<CodingChallenge />);
 
     const tutorModeButton = screen.getByText(/Tutor Mode/i);
@@ -35,7 +35,7 @@ describe('CodingChallenge', () => {
     fireEvent.click(tutorModeButton); //Click twice to turn off
 
     await waitFor(() => {
-      expect(screen.getByText(/Tutor Mode(?! ON)/i)).toBeInTheDocument(); // Update the text to match the content of the Answer section
+      expect(screen.getByText(/Tutor Mode(?! ON)/i)).toBeInTheDocument(); 
     });
   });
 });
@@ -49,7 +49,31 @@ describe('CodingChallenge', () => {
     fireEvent.click(answerButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/Given the head of a singly linked list/i)).toBeInTheDocument(); // Update the text to match the content of the Answer section
+      expect(screen.getByText(/Given the head of a singly linked list/i)).toBeInTheDocument();
+    });
+  });
+});
+
+describe('CodingChallenge', () => {
+  it('Checks if the Visual Explanation button works', async () => {
+    render(<CodingChallenge />);
+
+    const visualExplanationButton = screen.getByText(/Visual Explanation/i);
+
+    await waitFor(() => {
+      expect(visualExplanationButton).toBeInTheDocument();
+    });
+  });
+});
+
+describe('CodingChallenge', () => {
+  it('Checks if the Next Question button works', async () => {
+    render(<CodingChallenge />);
+
+    const nextQuestionButton = screen.getByText(/Next Question/i);
+
+    await waitFor(() => {
+      expect(nextQuestionButton).toBeInTheDocument();
     });
   });
 });

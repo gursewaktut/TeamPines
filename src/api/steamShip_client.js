@@ -1,6 +1,7 @@
 import Steamship from "@steamship/client"
 // steamship api call
-const url = "https://gursewaktut.steamship.run/teampines-t91i66/teampines"
+//const url = "https://gursewaktut.steamship.run/teampines-t91i66/teampines"
+const url = "https://gursewaktut.steamship.run/answer-agent-eja-byj64z/answer-agent-eja"
 
 //const apiKey = "23A44372-4E75-4947-906B-A140E890BECA";
 const steamship = new Steamship({
@@ -114,4 +115,48 @@ export const sendMessageToSteamship = async (message) => {
   });
 
   return response[0].text;
+};
+
+export const sendMessageToSteamshipTutor = async (message) => {
+
+    const URL = "https://gursewaktut.steamship.run/personality-agent-66c-ue0w2e/personality-agent-66c";
+    const response = await steamship.agent.respond({
+        url: URL,
+        input: {
+            prompt: `${message}`,
+            context_id: "4444" // Think of this as the chatroom name.
+        }
+    });
+
+    //const json = await response.json();
+    //        var newCode = response[0].text.match(/```python([^`]*)```/)[1];
+    //        setCode(newCode);
+    //        console.log(newCode);
+
+    //console.log(response[0].text);
+    //const json = await JSON.parse(response);
+    return response[0].text;
+    //return JSON.stringify({text: "hello"});
+};
+
+export const sendMessageToVisual = async (message) => {
+
+    const URL = "https://gursewaktut.steamship.run/visual-agent-9g0cyb/visual-agent";
+    const response = await steamship.agent.respond({
+        url: URL,
+        input: {
+            prompt: `${message}`,
+            context_id: "4444" // Think of this as the chatroom name.
+        }
+    });
+
+    //const json = await response.json();
+    //        var newCode = response[0].text.match(/```python([^`]*)```/)[1];
+    //        setCode(newCode);
+    //        console.log(newCode);
+
+    //console.log(response[0].text);
+    //const json = await JSON.parse(response);
+    return response[0].text;
+    //return JSON.stringify({text: "hello"});
 };
