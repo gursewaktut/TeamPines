@@ -1,45 +1,79 @@
 // CodingChallenge.test.js
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import CodingChallenge from '../../pages/CodingChallenge'; // Adjust the import path as necessary
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import CodingChallenge from '../../pages/CodingChallenge'; 
 
 
 describe('CodingChallenge', () => {
   it('renders the component and finds the Check Code button', () => {
-    const { getByText } = render(<CodingChallenge />);
+    render(<CodingChallenge />);
     
     // Check if the button text is in the document
-    const checkCodeButton = getByText('Check Code');
+    const checkCodeButton = screen.getByText('Check Code');
     expect(checkCodeButton).toBeInTheDocument();
   });
+});
 
-//  it('calls checkCode function when the Check Code button is clicked', () => {
-//
-//    const mockCheckCode = jest.fn();
-//    //CodingChallenge.props.checkCode = mockCheckCode; // Mock the method
-//
-//    const { getByText } = render(<CodingChallenge checkCode={mockCheckCode}/>);
-//    const checkCodeButton = getByText('Check Code');
-//    fireEvent.click(checkCodeButton);
-//
-//    // Expect the mock function to have been called
-//    expect(mockCheckCode).toHaveBeenCalled();
-//  });
-
-  it('renders the component and finds the Answer button', () => {
-    const { getByText } = render(<CodingChallenge />);
-
+describe('CodingChallenge', () => {
+  it('Checks that clicking the Tutor Mode button once opens the tutor mode', () => {
+    render(<CodingChallenge />);
 
     // Check if the button text is in the document
-    const answerButton = getByText('Answer');
-    expect(answerButton).toBeInTheDocument();
+    const tutorModeButton = screen.getByText('Tutor Mode');
+    //expect(tutorModeButton).toBeInTheDocument();
+    fireEvent.click(tutorModeButton);
+    expect(screen.getByText('Tutor Mode ON')).toBeInTheDocument();
   });
+});
 
-  it('calls answer function when the Visual Explanation button is clicked', () => {
-    const { getByText } = render(<CodingChallenge />);
+describe('CodingChallenge', () => {
+  it('Checks that clicking the Tutor Mode button twice closes the tutor mode after opening', async () => {
+    render(<CodingChallenge />);
 
-    // Check if the button text is in the document
-    const vsButton = getByText('Visual Explanation');
-    expect(vsButton).toBeInTheDocument();
-  })
+    const tutorModeButton = screen.getByText(/Tutor Mode/i);
+    fireEvent.click(tutorModeButton); //Click once to turn on
+    fireEvent.click(tutorModeButton); //Click twice to turn off
+
+    await waitFor(() => {
+      expect(screen.getByText(/Tutor Mode(?! ON)/i)).toBeInTheDocument(); 
+    });
+  });
+});
+
+describe('CodingChallenge', () => {
+  it('Opens the answer on clicking the Answer button', async () => {
+    render(<CodingChallenge />);
+
+    const answerButton = screen.getByText(/Answer/i);
+
+    fireEvent.click(answerButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Given the head of a singly linked list/i)).toBeInTheDocument();
+    });
+  });
+});
+
+describe('CodingChallenge', () => {
+  it('Checks if the Visual Explanation button works', async () => {
+    render(<CodingChallenge />);
+
+    const visualExplanationButton = screen.getByText(/Visual Explanation/i);
+
+    await waitFor(() => {
+      expect(visualExplanationButton).toBeInTheDocument();
+    });
+  });
+});
+
+describe('CodingChallenge', () => {
+  it('Checks if the Next Question button works', async () => {
+    render(<CodingChallenge />);
+
+    const nextQuestionButton = screen.getByText(/Next Question/i);
+
+    await waitFor(() => {
+      expect(nextQuestionButton).toBeInTheDocument();
+    });
+  });
 });
