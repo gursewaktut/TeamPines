@@ -227,6 +227,7 @@ const CodingChallenge = () => {
     backgroundColor: '#1f1717', 
     minHeight: '100vh',
     position: 'relative',
+    padding: '1rem',
   };
 
   const codeEditorStyles = {
@@ -241,6 +242,16 @@ const CodingChallenge = () => {
   const checkCodeStyle = {
     position: 'absolute',
     left: '90%', 
+    top: '95%',
+    transform: 'translate(-50%, -50%)',
+    width: '5%', 
+    height: '5%', 
+    
+  }
+
+  const checkOutputStyle = {
+    position: 'absolute',
+    left: '80%', 
     top: '95%',
     transform: 'translate(-50%, -50%)',
     width: '5%', 
@@ -280,8 +291,9 @@ const CodingChallenge = () => {
         <Box
           style={{
             position: 'absolute',
-            right: '85px',
-            bottom: '100px',
+            left: '72%', 
+            top: '72%', 
+            transform: 'translate(-50%, -50%)',
             width: '48%',
             height: '32%',
             backgroundColor: '#f5f5dc',
@@ -317,15 +329,18 @@ const CodingChallenge = () => {
         </Box>
       )}
 
-
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
+          </Box>
+          <Box style={checkOutputStyle}>
           { !showOutput ?
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
           }
-        </Box>
+          </Box>
+
+        
         {showAnswer && (
           <Box
             style={{

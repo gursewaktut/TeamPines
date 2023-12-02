@@ -18,7 +18,7 @@ const courses = [
 ];
 
 const containerStyles = {
-  backgroundColor: '#1f1717', // Background color for the entire interface
+  backgroundColor: '#1f1717', 
     minHeight: '100vh',
     position: 'relative',
 };
@@ -38,7 +38,7 @@ export default function CourseSelection() {
               onClick={() => navigate(course.path)}
               w="80%"
               h = "auto"
-              id={course.name}
+              
               p={0}
               bg="#ce5a67"
               border= '1px solid #ccc'
