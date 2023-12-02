@@ -3,7 +3,7 @@ import { Input, VStack, Grid, GridItem, Box, Button, Text, useDisclosure, Center
 import CodeEditor from '../components/CodeEditor';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { sendMessageToSteamship } from '../api/steamShip_client.js'; // Mock function to represent sending messages to Steamship API.
+import { sendMessageToSteamship, sendMessageToSteamshipTutor, sendMessageToVisual } from '../api/steamShip_client.js'; // Mock function to represent sending messages to Steamship API.
 // import Steamship from "@steamship/client"
 import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock functions to represent API calls.
 import { addLineBreak } from '../helpers/functions.js';
@@ -37,7 +37,9 @@ const CodingChallenge = () => {
       setMessage('');
 
       // Send the message to the Steamship API and wait for the response
-      const response = await sendMessageToSteamship(trimmedMessage);
+      const prompt = `${trimmedMessage}, Question: ${question.text}`;
+      console.log(prompt);
+      const response = await sendMessageToSteamshipTutor(prompt);
 
       //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
 
@@ -87,15 +89,21 @@ const CodingChallenge = () => {
     setQuestion(questionData);
   };
 
+  const handleVisualExplanation = () => {
+    setAnswer({text: "Loading Visual Explanation.... "})
+    const prompt = `This is the question: ${question.text}, \n give me a Visual explanation for this question`;
+    console.log(prompt);
+    const response = sendMessageToVisual(prompt);
+    response.then( data => setAnswer({text: data}) );
+    //setAnswer({text: response});
+    setShowAnswer(true);
+  };
+
   useEffect(() => {
     async function loadQuestion() {
       //const questionData = await fetchQuestion();
+      setIndex(0);
       const questionData = await fetchQuestion(index);
-      if (index === 9) {
-        setIndex(0)
-      } else {
-        setIndex(index => index+1);
-      }
       setQuestion(questionData);
     }
 
@@ -122,6 +130,7 @@ const CodingChallenge = () => {
       });
 
       const data = await response.json();
+      console.log("After execution");
       console.log(data);
 
       if (data.error) {
@@ -131,30 +140,37 @@ const CodingChallenge = () => {
         console.log(consiseError);
 
         //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
-        //Is the answer right. Just say yes or no.`
-        //const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
-        const solutionBotResponse = 'Your answer is correct';
-        setAnswer({text: 'Your answer is incorrect'});
-        setShowAnswer(true);
+        //and here is the output ${data.error}`;
+        //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+        ////const solutionBotResponse = 'Your answer is correct';
+        //setAnswer({text: solutionBotResponse});
+        setAnswer({text: "Your answer is incorrect"});
         //solutionBotResponse.then(data => console.log(data));
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
         setShowOutput(true);
         setShowAnswer(true);
       } else {
-        const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
-This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
-        const solutionBotResponse = sendMessageToSteamship(codeExplanationMessage);
-        setAnswer({text: 'Your answer is correct'});
-        solutionBotResponse.then(data => console.log(data));
+        //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+        //This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
+        //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+        setAnswer({text: "your answer is correct"});
+        //setAnswer({text: solutionBotResponse});
+        //solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
         setShowOutput(true);
         setShowAnswer(true);
       }
     } catch (error) {
-      console.error('Error executing code:', error);
+      //console.error('Error executing code:', error);
+      //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
+      //This is the execution result: ${error}. Is the answer right. Just say yes or no.`
+      //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+      //setAnswer({text: solutionBotResponse});
+      setAnswer({text: "Your answer is incorrect"});
       setOutput({ result: error.message, error: error.message });
       setShowOutput(true);
+      setShowAnswer(true);
     }
   };
 
@@ -172,11 +188,23 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
     setShowAnswer(true);
   };
 
-  const handleTutorModeToggle = () => {
-    setIsTutorModeActive(!isTutorModeActive); 
+  const handleTutorModeToggle = async () => {
+    setIsTutorModeActive(!isTutorModeActive);
     if (!isChatOpen && isTutorModeActive) {
       setIsChatOpen(true);
     }
+    //setMessageLoading(true);
+    const trimmedMessage = `This is the question I am having trouble with ${question.text} please help me with it`;
+    //setMessages([...messages, { type: 'user', text: trimmedMessage }]);
+    //setMessage('');
+
+    // Send the message to the Steamship API and wait for the response
+    const response = await sendMessageToSteamshipTutor(trimmedMessage);
+
+    //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
+
+    //setMessages((prevMessages) => [...prevMessages, { loading: true, type: 'bot', text: response}]);
+    //setMessageLoading(false);
   };
 
   const containerStyles = {
@@ -257,8 +285,8 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         <Box
           style={{
             position: 'absolute',
-            right: '105px',
-            bottom: '150px',
+            right: '80px',
+            bottom: '105px',
             width: '48%',
             height: '32%',
             backgroundColor: '#f5f5dc',
@@ -278,8 +306,8 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         <Box style={checkCodeStyle}  >
           <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
           { !showOutput ?
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', bottom: '12.8px', right: '150px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', bottom: '12.8px', right: '150px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
+            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', position: 'absolute', right: '100px', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
           }
         </Box>
         {showAnswer && (
@@ -299,7 +327,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
               overflow: 'auto'
             }}
           >
-            <Text fontSize="xl" mb="4" color="green" >
+            <Text fontSize="xl" mb="4" color="black" >
               <Markdown>{answer.text}</Markdown>
             </Text>
           </Box>
@@ -308,7 +336,7 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
         <Button onClick={handleToggleAnswer} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >
           Answer
         </Button>
-        <Button onClick={onToggleExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >Visual Explanation</Button>
+        <Button onClick={handleVisualExplanation} ml={4} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }} >Visual Explanation</Button>
         {isTutorModeActive && isChatOpen && (
 
           <Box
@@ -349,13 +377,13 @@ This is the execution result: ${data.output}. Is the answer right. Just say yes 
                         //p={2}
                         borderRadius="md"
                       >
-                        <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+                      <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
 
 
                       </Text>
                     </Box>
                   ))}
-                  {messageLoading ? <Box borderRadius="md" px={4} bg="green.500" alignSelf='flex-start'> <Text color="white" borderRadius="md">Thinking....</Text></Box> : "" }
+                  {messageLoading ? <Box borderRadius="md" px={4} bg="red.500" alignSelf='flex-start'> <Text color="white" borderRadius="md">Thinking....</Text></Box> : "" }
                   <div ref={messagesEndRef} />
                 </VStack>
               </GridItem>
