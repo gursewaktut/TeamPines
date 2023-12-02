@@ -113,8 +113,10 @@ const CodingChallenge = () => {
   const checkCode = async () => {
     console.log('checking code');
     setOutput({result: "Output will be here...."});
+    setAnswer({text: "Checking answer...."});
 
-    const CODEX_API_URL = 'https://api.codex.jaagrav.in';
+    const CODEX_API_URL = 'https://codex-team-pines.onrender.com/';
+    //const CODEX_API_URL = 'https://api.codex.jaagrav.in';
     const params = new URLSearchParams();
     params.append('code', code);
     params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
