@@ -139,12 +139,15 @@ const CodingChallenge = () => {
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
         console.log(consiseError);
 
-        //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
-        //and here is the output ${data.error}`;
-        //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
-        ////const solutionBotResponse = 'Your answer is correct';
+        const codeExplanationMessage = `This is the question: \n ${question.text}, and this is the answer: \n ${code}.
+        and here is the output \n ${data.error}`;
+        console.log(codeExplanationMessage);
+        const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+        //solutionBotResponse.then(data => console.log(data));
+        solutionBotResponse.then(data => setAnswer({text: data}));
+        //const solutionBotResponse = 'Your answer is correct';
         //setAnswer({text: solutionBotResponse});
-        setAnswer({text: "Your answer is incorrect"});
+        //setAnswer({text: "Your answer is incorrect"});
         //solutionBotResponse.then(data => console.log(data));
         //const consiseError = data.error.split('\n').slice(-2).join('\n');
         setOutput({ result: data.output, error: consiseError });
@@ -154,7 +157,13 @@ const CodingChallenge = () => {
         //const codeExplanationMessage = `This is the question: ${question}, and this is the answer: ${code}.
         //This is the execution result: ${data.output}. Is the answer right. Just say yes or no.`
         //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
-        setAnswer({text: "your answer is correct"});
+        //setAnswer({text: "your answer is correct"});
+        const codeExplanationMessage = `This is the question:\n ${question.text}, and this is the answer: \n ${code}.
+        and here is the output \n ${data.error}`;
+        console.log(codeExplanationMessage);
+        const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+        solutionBotResponse.then(data => setAnswer({text: data}));
+        //solutionBotResponse.then(data => console.log(data));
         //setAnswer({text: solutionBotResponse});
         //solutionBotResponse.then(data => console.log(data));
         setOutput({ result: data.output, error: '' });
@@ -167,7 +176,12 @@ const CodingChallenge = () => {
       //This is the execution result: ${error}. Is the answer right. Just say yes or no.`
       //const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
       //setAnswer({text: solutionBotResponse});
-      setAnswer({text: "Your answer is incorrect"});
+      const codeExplanationMessage = `This is the question: \n ${question.text}, and this is the answer: \n ${code}.
+        and here is the output \n ${error}`;
+      const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
+      console.log(codeExplanationMessage);
+      solutionBotResponse.then(data => setAnswer({text: data}));
+      //setAnswer({text: "Your answer is incorrect"});
       setOutput({ result: error.message, error: error.message });
       setShowOutput(true);
       setShowAnswer(true);
