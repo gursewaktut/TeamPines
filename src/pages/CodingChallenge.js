@@ -291,8 +291,9 @@ const CodingChallenge = () => {
         <Box
           style={{
             position: 'absolute',
-            right: '85px',
-            bottom: '100px',
+            left: '72%', 
+            top: '72%', 
+            transform: 'translate(-50%, -50%)',
             width: '48%',
             height: '32%',
             backgroundColor: '#f5f5dc',
@@ -327,7 +328,6 @@ const CodingChallenge = () => {
           <Text color="green">{output.result}</Text>
         </Box>
       )}
-
 
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >

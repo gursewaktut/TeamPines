@@ -7,7 +7,7 @@ export default function LandingPage() {
       className="root"
       position="relative"
       width="100%" 
-      minHeight="100vh" // Changed height to minHeight for responsiveness
+      minHeight="100vh" 
       backgroundColor="#1f1717"
       overflow="hidden"
       boxShadow="0px 4px 4px 0px #00000040"
@@ -21,9 +21,9 @@ export default function LandingPage() {
         <Image
           src="https://gifdb.com/images/high/animated-chock-coding-c78f6elj32sfoi8q.gif"
           alt="Coding GIF"
-          w={{ base: '80%', md: '50%' }} // Adjusted image width for responsiveness
+          w={{ base: '80%', md: '50%' }} 
           mx="auto" 
-          my={{ base: '5%', md: '2%' }} // Adjusted margin for top and bottom space
+          my={{ base: '5%', md: '2%' }} 
         />
         <Text
           fontSize={{ base: '5vw', md: '42px' }} 
@@ -46,8 +46,8 @@ export default function LandingPage() {
       </Box>
       <VStack 
         spacing="1rem"
-        width="90%" // Adjusted button width
-        maxW="400px" // Set maximum width for responsiveness
+        width="90%" 
+        maxW="400px" 
         mx="auto"
       >
         <Button 
@@ -57,7 +57,7 @@ export default function LandingPage() {
           size="lg" 
           bg="#F4BF96" 
           fontFamily="Roboto Mono"
-          width="80%" // Set width to 100%
+          width="80%" 
         > 
           Get Started
         </Button>
@@ -67,7 +67,7 @@ export default function LandingPage() {
           size="lg" 
           isDisabled 
           fontFamily="Roboto Mono"
-          width= "80%" // Set width to 100%
+          width= "80%" 
         >
           I Already Have an Account
         </Button>
