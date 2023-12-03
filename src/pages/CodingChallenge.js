@@ -273,7 +273,7 @@ const CodingChallenge = () => {
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
 
       <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
-        <Text mb={4}><Markdown>{question.text || 'Loading question...'}</Markdown> </Text>
+        <Text mb={4}><Markdown>{question?.text || 'Loading question...'}</Markdown> </Text> 
       </Box>
       <Box style={codeEditorStyles}>
         <CodeEditor
@@ -357,6 +357,7 @@ const CodingChallenge = () => {
               justifyContent: 'start',
               overflow: 'auto'
             }}
+            data-testid="answer-visual-display" //id for answer integration
           >
             <Text fontSize="xl" mb="4" color="black" >
               <Markdown>{answer.text}</Markdown>
