@@ -2,6 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CodingChallenge from '../../pages/CodingChallenge'; 
+import CodeEditor from '../../components/CodeEditor';
 
 
 describe('CodingChallenge', () => {
@@ -77,3 +78,5 @@ describe('CodingChallenge', () => {
     });
   });
 });
+
+
