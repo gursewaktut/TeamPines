@@ -23,6 +23,7 @@ const CodeEditor = ({ onChange, handleLanguageChange, handleThemeChange, languag
         p={4}
         height="85vh"
         width={`100%`}
+        data-testid="code-editor-test-id"
         language={language || "javascript"}
         value={code}
         theme={theme}

@@ -20,7 +20,7 @@ const TutorMode = () => {
       // Send the message to the Steamship API and wait for the response
       const response = await sendMessageToSteamship(trimmedMessage);
 
-      console.log(addLineBreak(response));
+      //console.log(addLineBreak(response));
       // Add the Steamship response to the chat display
       //console.log(response.json());
       setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
