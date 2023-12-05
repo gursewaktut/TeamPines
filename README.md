@@ -45,11 +45,26 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 
 - Gursewak Singh: gursewaktut
 [ProjectMilestone#1_AI_Declaration_Gursewak_Singh_301575663.pdf](./extra/ProjectMilestone%231_AI_Declaration_Gursewak_Singh_301575663.pdf)
+[ProjectMilestone#2_AI_Declaration_Gursewak_Singh_301575663.pdf](./extra/ProjectMilestone%232_AI_Declaration_Gursewak_Singh_301575663.pdf)
 
-- Henrik Sachdeva : henriksfu [ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](./extra/ProjectMilestone%231_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
+- Henrik Sachdeva : henriksfu
+[ProjectMilestone#1_AI_Declaration_Henrik_Sachdeva_301563572](./extra/ProjectMilestone%231_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
+[ProjectMilestone#2_AI_Declaration_Henrik_Sachdeva_301563572](./extra/ProjectMilestone%232_AI_Declaration_Henrik_Sachdeva_301563572.pdf)
+
 - Jiya Garg : jiyaagargg
 [ProjectMilestone#1_AI_Declaration_JIYA_GARG_301563502.pdf](./extra/ProjectMilestone%231_AI_Declaration_JIYA_GARG_301563502.pdf)
+[ProjectMilestone#2_AI_Declaration_JIYA_GARG_301563502.pdf](./extra/ProjectMilestone%232_AI_Declaration_Jiya_Garg_301563502.pdf)
 
 ## Set Up Instructions
 
-TBD
+Please follow the following steps to run the app on your local environment:
+
+```
+git clone https://github.com/gursewaktut/TeamPines.git
+
+cd TeamPines
+
+npm install
+
+npm start
+```
