@@ -6,7 +6,7 @@ CMPT 276 Term project
 
 Code Mentor AI: An Interactive Programming Learning Platform
 
-Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn programming. Leveraging advanced APIs and a sophisticated tech stack, it offers an interactive and tailored learning experience. Features include support for multiple languages, real-time code evaluation, personalized virtual tutors, and the ability to analyze code from images. Our mission is to make programming education universally accessible and adaptable to each learner's unique style, bridging the gap between concept mastery and practical application.
+Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn programming. Leveraging advanced APIs and a sophisticated tech stack, it offers an interactive and tailored learning experience. Features include support for multiple languages, real-time code evaluation, virtual tutors, and the ability to analyze code from digarams among other notable features. Our mission is to make programming education universally accessible and adaptable to each learner's unique style, bridging the gap between concept mastery and practical application.
 
 ![Landing Page](./extra/Landing_Page.png "Code Mentor AI Landing Page")
 
@@ -26,7 +26,7 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 ## Testing
 
  Jest: A JavaScript testing framework for unit testing React components.
- Selenium: For end-to-end testing and ensuring cross-browser compatibility.
+ 9 unit tests and 6 integration tests - all written in Jest
  [Jest Tutorial](https://www.digitalocean.com/community/tutorials/how-to-test-a-react-app-with-jest-and-react-testing-library)
 
 ## CI/CD
@@ -42,6 +42,8 @@ Code Mentor AI is a cutting-edge platform designed to revolutionize how we learn
 
 - Avni Kapoor : avkap007
 [ProjectMilestone#1_AI_Declaration_Avni_Kapoor_301446648.pdf](./extra/ProjectMilestone%231_AI_Declaration_Avni_Kapoor_301446648.pdf)
+[ProjectMilestone#2_AI_Declaration_Avni_Kapoor_301446648.pdf)]
+(./extra/ProjectMilestone#2_AI_Declaration_Avni_Kapoor_301446648.pdf)
 
 - Gursewak Singh: gursewaktut
 [ProjectMilestone#1_AI_Declaration_Gursewak_Singh_301575663.pdf](./extra/ProjectMilestone%231_AI_Declaration_Gursewak_Singh_301575663.pdf)

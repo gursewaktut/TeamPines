@@ -57,7 +57,7 @@ describe('Answer Bot in CodingChallenge', () => {
 
 describe('Visual Explanation in CodingChallenge', () => {
   it('fetches and displays a visual explanation when the Visual Explanation button is clicked', async () => {
-    steamShipClient.sendMessageToVisual.mockResolvedValue('Loading Visual Explanation....'); // Ensure this mock is set up correctly
+    steamShipClient.sendMessageToVisual.mockResolvedValue('Loading Visual Explanation....'); 
 
     render(<CodingChallenge />);
 
@@ -76,7 +76,7 @@ describe('Visual Explanation in CodingChallenge', () => {
 
 describe('Code Check in CodingChallenge', () => {
   it('Checks to see if the code output and the code evaluation are displayed in the document', async () => {
-    steamShipClient.sendMessageToVisual.mockResolvedValue('Your answer is correct'); // Ensure this mock is set up correctly
+    steamShipClient.sendMessageToVisual.mockResolvedValue('Your answer is correct'); 
 
     render(<CodingChallenge />);
 
