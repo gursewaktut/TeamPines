@@ -57,7 +57,8 @@ export default function LandingPage() {
           size="lg" 
           bg="#F4BF96" 
           fontFamily="Roboto Mono"
-          width="80%" 
+          width="80%"
+          data-testid="get-started-button"
         > 
           Get Started
         </Button>

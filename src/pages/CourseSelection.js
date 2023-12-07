@@ -35,6 +35,7 @@ export default function CourseSelection() {
             <Button
               key={course.name}
               id={course.name}
+              data-testid={course.name}
               onClick={() => {
                 (course.name !== "Python" && course.name !== "C++" && course.name !== "Javascript") ? navigate(courses[0].path) : navigate(course.path)
               }}

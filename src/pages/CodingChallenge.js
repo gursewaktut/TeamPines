@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Input, VStack, Grid, GridItem, Box, Button, Text, useDisclosure, Center } from '@chakra-ui/react';
 import CodeEditor from '../components/CodeEditor';
 import Markdown from 'react-markdown';
@@ -9,10 +10,12 @@ import { fetchQuestion, checkAnswer } from '../api/steamShip_client'; // Mock fu
 import { addLineBreak } from '../helpers/functions.js';
 
 const CodingChallenge = () => {
-  const [code, setCode] = useState('# Type your code here');
+  const { language } = useParams();
+  const comments = { python: "#Type your code here", javascript: "//Type your code here", cpp: "//Type your code here" }
   const [index, setIndex] = useState(0);
   const [output, setOutput] = useState({ result: "Output will be here...." });
-  const [language, setLanguage] = useState('python');
+  const [selectedLanguage, setLanguage] = useState(() => language? language.toLowerCase() : 'python');
+  const [code, setCode] = useState(comments[selectedLanguage.toLowerCase()]);
   const [theme, setTheme] = useState('vs-dark');
   const [question, setQuestion] = useState({});
   const { isOpen: isAnswerOpen, onToggle: onToggleAnswer } = useDisclosure();
@@ -38,7 +41,7 @@ const CodingChallenge = () => {
 
       // Send the message to the Steamship API and wait for the response
       const prompt = `${trimmedMessage}, Question: ${question.text}`;
-      console.log(prompt);
+      //console.log(prompt);
       const response = await sendMessageToSteamshipTutor(prompt);
 
       //setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: response}]);
@@ -61,7 +64,6 @@ const CodingChallenge = () => {
     // Add other mappings as necessary
   };
 
-  const comments = { python: "#Type your code here", javascript: "//Type your code here", cpp: "//Type your code here" }
 
   const handleChange = (newCode) => {
     setCode(newCode);
@@ -92,7 +94,7 @@ const CodingChallenge = () => {
   const handleVisualExplanation = () => {
     setAnswer({text: "Loading Visual Explanation.... "})
     const prompt = `This is the question: ${question.text}, \n give me a Visual explanation for this question`;
-    console.log(prompt);
+    //console.log(prompt);
     const response = sendMessageToVisual(prompt);
     response.then( data => setAnswer({text: data}) );
     //setAnswer({text: response});
@@ -111,7 +113,7 @@ const CodingChallenge = () => {
   }, []);
 
   const checkCode = async () => {
-    console.log('checking code');
+    //console.log('checking code');
     setOutput({result: "Output will be here...."});
     setAnswer({text: "Checking answer...."});
 
@@ -119,7 +121,7 @@ const CodingChallenge = () => {
     //const CODEX_API_URL = 'https://api.codex.jaagrav.in';
     const params = new URLSearchParams();
     params.append('code', code);
-    params.append('language', languageMap[language.toLowerCase()] || language.toLowerCase());
+    params.append('language', languageMap[selectedLanguage.toLowerCase()] || selectedLanguage.toLowerCase());
     params.append('input', ''); 
 
     try {
@@ -132,18 +134,18 @@ const CodingChallenge = () => {
       });
 
       const data = await response.json();
-      console.log("After execution");
-      console.log(data);
+      //console.log("After execution");
+      //console.log(data);
 
       if (data.error) {
 
-        console.log(data.error);
+        //console.log(data.error);
         const consiseError = data.error.split(',').pop().replace(/ /g, "\u00A0");
-        console.log(consiseError);
+        //console.log(consiseError);
 
         const codeExplanationMessage = `This is the question: \n ${question.text}, and this is the answer: \n ${code}.
         and here is the output \n ${data.error}`;
-        console.log(codeExplanationMessage);
+        //console.log(codeExplanationMessage);
         const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
         //solutionBotResponse.then(data => console.log(data));
         solutionBotResponse.then(data => setAnswer({text: data}));
@@ -162,7 +164,7 @@ const CodingChallenge = () => {
         //setAnswer({text: "your answer is correct"});
         const codeExplanationMessage = `This is the question:\n ${question.text}, and this is the answer: \n ${code}.
         and here is the output \n ${data.error}`;
-        console.log(codeExplanationMessage);
+        //console.log(codeExplanationMessage);
         const solutionBotResponse = sendMessageToVisual(codeExplanationMessage);
         solutionBotResponse.then(data => setAnswer({text: data}));
         //solutionBotResponse.then(data => console.log(data));
@@ -196,8 +198,8 @@ const CodingChallenge = () => {
 
   const handleToggleAnswer = () => {
     setAnswer({text: "Loading answer.... "})
-    const prompt = `This is the question: ${question.text}, \n give me the solution to this using ${language}`;
-    console.log(prompt);
+    const prompt = `This is the question: ${question.text}, \n give me the solution to this using ${selectedLanguage}`;
+    //console.log(prompt);
     const response = sendMessageToSteamship(prompt);
     response.then( data => setAnswer({text: data}) );
     //setAnswer({text: response});
@@ -273,13 +275,13 @@ const CodingChallenge = () => {
     <Box p={4} style={containerStyles} display="flex" justifyContent="space-between" minHeight="100vh" position="relative">
 
       <Box style={questionStyle} flex={1} display="flex" flexDirection="column">
-        <Text mb={4}><Markdown>{question.text || 'Loading question...'}</Markdown> </Text>
+        <Text data-testid="question-box" mb={4}><Markdown>{question?.text || 'Loading question...'}</Markdown> </Text>
       </Box>
       <Box style={codeEditorStyles}>
         <CodeEditor
           code={code}
           onChange={handleChange}
-          language={language}
+          language={selectedLanguage}
           theme={theme}
           handleLanguageChange={handleLanguageChange}
           handleThemeChange={handleThemeChange}
@@ -325,17 +327,17 @@ const CodingChallenge = () => {
             justifyContent: 'start',
           }}
         >
-          <Text color="green">{output.result}</Text>
+          <Text color="green" data-testid="code-output-display" >{output.result}</Text>
         </Box>
       )}
 
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Box style={checkCodeStyle}  >
-          <Button onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
+          <Button data-testid="check-code-button" onClick={checkCode} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Check Code</Button>
           </Box>
           <Box style={checkOutputStyle}>
           { !showOutput ?
-            <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
+            <Button data-testid="open-output" onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Open Output</Button>:
             <Button onClick={handleToggleOutput} style={{ backgroundColor: '#ce5a67', color: '#FCF5ED', fontFamily: "Roboto Mono" }}>Close Output</Button>
           }
           </Box>
@@ -357,6 +359,7 @@ const CodingChallenge = () => {
               justifyContent: 'start',
               overflow: 'auto'
             }}
+            data-testid="answer-visual-display" //id for answer integration
           >
             <Text fontSize="xl" mb="4" color="black" >
               <Markdown>{answer.text}</Markdown>
